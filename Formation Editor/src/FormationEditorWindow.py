@@ -40,6 +40,7 @@ class FormationEditorWindow(QtGui.QMainWindow):
         #Global Group:
         QObject.connect(self.ui.Animate,SIGNAL("clicked(bool)"),self.Animate);
         QObject.connect(self.ui.Save, SIGNAL("clicked(bool)"),self.Save);
+        QObject.connect(self.ui.Load, SIGNAL("clicked(bool)"),self.Load);
         
         #Groups Group:
         QObject.connect(self.ui.Groups_Add,SIGNAL("clicked(bool)"),self.AddGroup);
@@ -93,13 +94,13 @@ class FormationEditorWindow(QtGui.QMainWindow):
     def TimeGroupUp(self):
         group = self.GetGroupSelected(self.ui.Time_GroupsList);
         if(len(group) > 0):
-            i = Data.getInstance().GroupUp(group[0]);
+            i = SData.getInstance().GroupUp(group[0]);
             self.UpdateGroups();
             self.ui.Time_GroupsList.setCurrentItem(self.ui.Time_GroupsList.topLevelItem(i));
     def TimeGroupDown(self):
         group = self.GetGroupSelected(self.ui.Time_GroupsList);
         if(len(group) > 0):
-            i = Data.getInstance().GroupDown(group[0]);
+            i = SData.getInstance().GroupDown(group[0]);
             self.UpdateGroups();
             self.ui.Time_GroupsList.setCurrentItem(self.ui.Time_GroupsList.topLevelItem(i));    
     def TimeCurrentGetPathSelected(self):
@@ -113,7 +114,7 @@ class FormationEditorWindow(QtGui.QMainWindow):
     def TimeDelete(self):
         path = self.TimeCurrentGetPathSelected();
         if(path is not None):
-            Data.getInstance().deleteEnemyPath(path);
+            SData.getInstance().deleteEnemyPath(path);
             self.UpdateGroups();
     def UpdateCurrentTimeOrder(self,current):
         self.ui.Time_GroupOrder.clear();
@@ -139,12 +140,12 @@ class FormationEditorWindow(QtGui.QMainWindow):
         size = self.ui.Monster_Size.value();
         color = self.ui.Monster_Color.value();
         pos = Point(100,100);
-        Data.getInstance().newMonster(color,size, pos);
+        SData.getInstance().newMonster(color,size, pos);
         self.UpdateMonsters();
     def ChangeMonster(self):
         selected = self.GetMonsterSelectedIndexes();
         if(len(selected) == 1):
-            monster = Data.getInstance().getMonster(selected[0]);
+            monster = SData.getInstance().getMonster(selected[0]);
             size = self.ui.Monster_Size.value();
             color = self.ui.Monster_Color.value();
             monster.life = color;
@@ -153,7 +154,7 @@ class FormationEditorWindow(QtGui.QMainWindow):
     def DeleteMonster(self):
         selected = self.GetMonsterSelectedIndexes();
         for i in selected :
-            Data.getInstance().deleteMonster(i);
+            SData.getInstance().deleteMonster(i);
         self.UpdateMonsters();
         self.UpdateGroups();
             
@@ -166,7 +167,7 @@ class FormationEditorWindow(QtGui.QMainWindow):
         items = self.ui.Formation_MonstersList.selectedIndexes();
         for i in items:
             if(i.column() == 0):
-                selected.append(Data.getInstance().getMonster(i.row()));
+                selected.append(SData.getInstance().getMonster(i.row()));
         return selected;
     def GetMonsterSelectedIndexes(self):
         selected = [];
@@ -177,8 +178,8 @@ class FormationEditorWindow(QtGui.QMainWindow):
         return selected;
     def UpdateMonsters(self):
         self.ui.Formation_MonstersList.clear();
-        for i in xrange(Data.getInstance().getNbMonster()):
-            self.ui.Formation_MonstersList.addTopLevelItem(self.GetMonsterUI(Data.getInstance().getMonster(i)));
+        for i in xrange(SData.getInstance().getNbMonster()):
+            self.ui.Formation_MonstersList.addTopLevelItem(self.GetMonsterUI(SData.getInstance().getMonster(i)));
     def GetMonsterUI(self,monster):
         item = QTreeWidgetItem();
         item.setText(0,"Monster (" + str(monster.id) + ")");
@@ -202,14 +203,14 @@ class FormationEditorWindow(QtGui.QMainWindow):
             speed = self.ui.Formation_GroupSpeed.value() / 10.0;
             diffTime = self.ui.Formation_GroupDiffTime.value() / 10.0;
             type = self.ui.Formation_GroupEffectStyle.currentIndex();
-            Data.getInstance().newGroup(enemies,type,speed,diffTime);
+            SData.getInstance().newGroup(enemies,type,speed,diffTime);
             self.UpdateGroups()
     def GetGroupSelected(self,list):
         selected = [];
         items = list.selectedIndexes();
         for i in items:
             if(i.column() == 0):
-                selected.append(Data.getInstance().getGroup(i.row()));
+                selected.append(SData.getInstance().getGroup(i.row()));
         return selected;
     def GetGroupSelectedIndexes(self,list):
         selected = [];
@@ -230,7 +231,7 @@ class FormationEditorWindow(QtGui.QMainWindow):
     def DeleteGroup(self):
         selected = self.GetGroupSelectedIndexes(self.ui.Formation_GroupsList);
         for i in selected :
-            Data.getInstance().deleteGroup(i);
+            SData.getInstance().deleteGroup(i);
         self.UpdateGroups();
         self.UpdatePaths();
     def UpdateGroups(self):
@@ -240,8 +241,8 @@ class FormationEditorWindow(QtGui.QMainWindow):
         self.ui.Formation_GroupsList.clear();
         self.ui.Association_GroupsList.clear();
         self.ui.Time_GroupsList.clear();
-        for i in xrange(Data.getInstance().getNbGroups()):
-            group = Data.getInstance().getGroup(i);
+        for i in xrange(SData.getInstance().getNbGroups()):
+            group = SData.getInstance().getGroup(i);
             item = self.GetGroupUI(group);
             self.ui.Formation_GroupsList.addTopLevelItem(item);
             if(len(formsel)>0 and formsel[0] is group):
@@ -276,13 +277,13 @@ class FormationEditorWindow(QtGui.QMainWindow):
     
     #Path Group
     def AddPath(self):
-        path = Data.getInstance().newEnemyPath();   
+        path = SData.getInstance().newEnemyPath();   
         self.m_renderer.currentPath = path;
         self.m_renderer.update(); 
         self.UpdatePaths();
     def DeletePath(self):
         current = self.m_renderer.getCurrentPath();
-        Data.getInstance().deleteEnemyPath(current);
+        SData.getInstance().deleteEnemyPath(current);
         self.m_renderer.update();
         self.UpdatePaths();
         self.UpdateGroups();
@@ -295,8 +296,8 @@ class FormationEditorWindow(QtGui.QMainWindow):
     def UpdatePaths(self):
         assocSelected = self.GetPathSelected(self.ui.Association_PathsList);
         self.ui.Association_PathsList.clear();
-        for i in xrange(Data.getInstance().getNbEnemyPath()):
-            path = Data.getInstance().getEnemyPath(i);
+        for i in xrange(SData.getInstance().getNbEnemyPath()):
+            path = SData.getInstance().getEnemyPath(i);
             item = self.GetPathUI(path);
             self.ui.Association_PathsList.addTopLevelItem(item);
             if(len(assocSelected)>0 and assocSelected[0] is path):
@@ -306,7 +307,7 @@ class FormationEditorWindow(QtGui.QMainWindow):
     def GetPathUI(self,path):
         item = QTreeWidgetItem();
         item.setText(0,"Path (" + str(path.id) +")");
-        groups = Data.getInstance().getGroupsForPath(path);
+        groups = SData.getInstance().getGroupsForPath(path);
         for group in groups:
             g = QTreeWidgetItem();
             g.setText(0,"Group (" + str(group.id) +")");
@@ -317,7 +318,7 @@ class FormationEditorWindow(QtGui.QMainWindow):
         items = list.selectedIndexes();
         for i in items:
             if(i.column() == 0):
-                selected.append(Data.getInstance().getEnemyPath(i.row()));
+                selected.append(SData.getInstance().getEnemyPath(i.row()));
         return selected;
     def GetPathSelectedIndexes(self,list):
         selected = [];
@@ -333,10 +334,23 @@ class FormationEditorWindow(QtGui.QMainWindow):
     #GlobalGroup
     def Animate(self):
         self.m_renderer.Animation = True;
-        self.m_renderer.AnimEngine = Engine(Data.getInstance().getGroups());
+        self.m_renderer.AnimEngine = Engine(SData.getInstance().getGroups());
         self.timer = QTimer();
         QObject.connect(self.timer,SIGNAL("timeout()"),self.m_renderer.repaint);
         self.timer.start(200);
     def Save(self):
-        pass
+        file = QFileDialog.getSaveFileName(self,"Save File","","Formation File (*.fsz)");
+        if file.length() > 0:
+            SData.getInstance().Save(file);
+    
+    def RefreshUI(self):
+        self.UpdatePaths();
+        self.UpdateGroups();
+        self.UpdateMonsters();
+    def Load(self):
+        file = QFileDialog.getOpenFileName(self,"Save File","","Formation File (*.fsz)");
+        if file.length() > 0:
+            SData.getInstance().Load(file);
+            self.m_renderer.repaint();
+            self.RefreshUI();
         

@@ -2,7 +2,7 @@
 
 # Form implementation generated from reading ui file 'F:\Twinkle Star Sprites\NTSSP\Formation Editor\src\FormationEditor.ui'
 #
-# Created: Sat Nov 22 17:46:45 2008
+# Created: Wed Dec 24 10:05:11 2008
 #      by: PyQt4 UI code generator 4.4.3
 #
 # WARNING! All changes made in this file will be lost!
@@ -75,6 +75,9 @@ class Ui_MainWindow(object):
         self.Save = QtGui.QPushButton(self.GlobalGroup)
         self.Save.setObjectName("Save")
         self.vboxlayout3.addWidget(self.Save)
+        self.Load = QtGui.QPushButton(self.GlobalGroup)
+        self.Load.setObjectName("Load")
+        self.vboxlayout3.addWidget(self.Load)
         self.verticalLayout.addWidget(self.GlobalGroup)
         self.ToolsTabs.addTab(self.tab, "")
         self.tab_2 = QtGui.QWidget()
@@ -282,7 +285,7 @@ class Ui_MainWindow(object):
         MainWindow.setStatusBar(self.statusbar)
 
         self.retranslateUi(MainWindow)
-        self.ToolsTabs.setCurrentIndex(1)
+        self.ToolsTabs.setCurrentIndex(0)
         QtCore.QMetaObject.connectSlotsByName(MainWindow)
 
     def retranslateUi(self, MainWindow):
@@ -298,6 +301,7 @@ class Ui_MainWindow(object):
         self.GlobalGroup.setTitle(QtGui.QApplication.translate("MainWindow", "Global", None, QtGui.QApplication.UnicodeUTF8))
         self.Animate.setText(QtGui.QApplication.translate("MainWindow", "Animate", None, QtGui.QApplication.UnicodeUTF8))
         self.Save.setText(QtGui.QApplication.translate("MainWindow", "Save", None, QtGui.QApplication.UnicodeUTF8))
+        self.Load.setText(QtGui.QApplication.translate("MainWindow", "Load", None, QtGui.QApplication.UnicodeUTF8))
         self.ToolsTabs.setTabText(self.ToolsTabs.indexOf(self.tab), QtGui.QApplication.translate("MainWindow", "Paths", None, QtGui.QApplication.UnicodeUTF8))
         self.Formation_GroupsGroup.setTitle(QtGui.QApplication.translate("MainWindow", "Groups", None, QtGui.QApplication.UnicodeUTF8))
         self.Formation_GroupsList.headerItem().setText(0, QtGui.QApplication.translate("MainWindow", "Objects", None, QtGui.QApplication.UnicodeUTF8))
@@ -306,11 +310,11 @@ class Ui_MainWindow(object):
         self.Formation_GroupDiffTimeLabel.setText(QtGui.QApplication.translate("MainWindow", "DiffTime: 0s", None, QtGui.QApplication.UnicodeUTF8))
         self.label_3.setText(QtGui.QApplication.translate("MainWindow", "Effect Type:", None, QtGui.QApplication.UnicodeUTF8))
         self.Formation_GroupEffectStyle.setItemText(0, QtGui.QApplication.translate("MainWindow", "Normal", None, QtGui.QApplication.UnicodeUTF8))
-        self.Formation_GroupEffectStyle.setItemText(1, QtGui.QApplication.translate("MainWindow", "Fixed", None, QtGui.QApplication.UnicodeUTF8))
-        self.Formation_GroupEffectStyle.setItemText(2, QtGui.QApplication.translate("MainWindow", "Circle", None, QtGui.QApplication.UnicodeUTF8))
-        self.Formation_GroupEffectStyle.setItemText(3, QtGui.QApplication.translate("MainWindow", "Switch", None, QtGui.QApplication.UnicodeUTF8))
+        self.Formation_GroupEffectStyle.setItemText(1, QtGui.QApplication.translate("MainWindow", "Circle", None, QtGui.QApplication.UnicodeUTF8))
+        self.Formation_GroupEffectStyle.setItemText(2, QtGui.QApplication.translate("MainWindow", "Switch", None, QtGui.QApplication.UnicodeUTF8))
+        self.Formation_GroupEffectStyle.setItemText(3, QtGui.QApplication.translate("MainWindow", "Arc", None, QtGui.QApplication.UnicodeUTF8))
         self.Formation_GroupEffectStyle.setItemText(4, QtGui.QApplication.translate("MainWindow", "Rotate", None, QtGui.QApplication.UnicodeUTF8))
-        self.Formation_GroupEffectStyle.setItemText(5, QtGui.QApplication.translate("MainWindow", "Arc", None, QtGui.QApplication.UnicodeUTF8))
+        self.Formation_GroupEffectStyle.setItemText(5, QtGui.QApplication.translate("MainWindow", "Fixed", None, QtGui.QApplication.UnicodeUTF8))
         self.Groups_Add.setText(QtGui.QApplication.translate("MainWindow", "Add", None, QtGui.QApplication.UnicodeUTF8))
         self.Group_Edit.setText(QtGui.QApplication.translate("MainWindow", "Edit", None, QtGui.QApplication.UnicodeUTF8))
         self.Groups_Change.setText(QtGui.QApplication.translate("MainWindow", "Change", None, QtGui.QApplication.UnicodeUTF8))

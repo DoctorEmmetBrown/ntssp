@@ -22,8 +22,10 @@ class EffectType:
     Zero = 0;
     Circle = 1;
     Switch = 2;
-    Arc = 4;
-    text = ["Circle","Switch","Rotate","Arc","Normal"];
+    Arc = 3;
+    Rotate = 4;
+    Fixed = 5;
+    text = ["Normal","Circle","Switch","Arc","Rotate","Fixed"];
     
     @classmethod 
     def getText(cls,type):

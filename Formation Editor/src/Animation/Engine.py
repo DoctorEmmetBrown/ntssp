@@ -109,13 +109,8 @@ class SwitchEffect(GroupEffect):
             
             for e in self.group.enemies:
                 pos = self.group.GetEnemyPos(e);
-                e.__currentX = pos[0];
-                if(pos[0] > 0):
-                    e.__currentIncr = -1;
-                elif(pos[0] == 0):
-                    e.__currentIncr = 0;
-                else:
-                    e.__currentIncr = 1;
+                e.__line = Line(Point(pos[0],pos[1]),Point(-pos[0],pos[1]));
+                e.__t = 0.0;
             
             #TODO change for the length of the path
             self.nbPoints = int(1000.0 / group.speed);
@@ -137,8 +132,8 @@ class SwitchEffect(GroupEffect):
                         
                         #clean enemy
                         for e in self.group.enemies:
-                            del e.__currentX;
-                            del e.__currentIncr;
+                            del e.__line;
+                            del e.__t;
                         self.SendEndEvent();
                         
                     else:
@@ -160,28 +155,153 @@ class SwitchEffect(GroupEffect):
                 for e in self.group.enemies:
                     pos = self.group.GetEnemyPos(e);
 
-                    if(pos[0] > 0):
-                        if(e.__currentX >= pos[0]):
-                            e.__currentIncr = -1 * (pos[0]+1)*2 / SwitchEffect.SWITCH_SPEED;
-                        elif(e.__currentX <= -pos[0]):
-                            e.__currentIncr = 1 * (pos[0]+1)*2/ SwitchEffect.SWITCH_SPEED;
-                    else:
-                        if(e.__currentX <= pos[0]):
-                            e.__currentIncr = 1 * (-pos[0]+1)*2/ SwitchEffect.SWITCH_SPEED;
-                        elif(e.__currentX >= -pos[0]):
-                            e.__currentIncr = -1 * (-pos[0]+1)*2/ SwitchEffect.SWITCH_SPEED;
+                    p = e.__line.pointAt(e.__t);
+                    x = self.centerX + p.x;
+                    y = self.centerY + p.y;
+                    
+                    e.__t += ArcEffect.ARC_SPEED;
+                    
+                    if(e.__t >= 1.0):
+                        tmp = e.__line.p2;
+                        e.__line.p2 = e.__line.p1;
+                        e.__line.p1 = tmp;
+                        e.__t = 0;
                             
-                    if(pos[0] > 0):
-                        e.__currentX = e.__currentX + e.__currentIncr
-                    else:
-                        e.__currentX = e.__currentX + e.__currentIncr;
-                    
-                    x = self.centerX + e.__currentX;
-                    y = self.centerY + pos[1]
-                    
                     e.x = x;
                     e.y = y;
-                                    
+
+class FixedEffect(GroupEffect):
+    def __init__(self,group):
+        GroupEffect.__init__(self, group);
+        self.centerX = 0;
+        self.centerY = 0;
+        if(len(group.paths) > 0):
+            self.__currentPath = self.group.paths[0];
+            self.__currentPath.BezierSpline.update();
+            self.__currentPathPercent = 0;
+            self.__currentPathIndex = 0;
+            
+            #TODO change for the length of the path
+            self.nbPoints = int(1000.0 / group.speed);
+            self.nbPointsInter = int(group.diffTime * FPS);
+            self.globalPoints = 0;
+    def getName(self):
+        return "Switch";
+    def animate(self):
+        if(len(self.group.paths) > 0):
+                #Enemy infos
+                path = self.__currentPath;
+                percent = self.__currentPathPercent;
+                
+                if(percent == self.nbPoints):
+                    self.__currentPathIndex = self.__currentPathIndex + 1;
+                    if(self.__currentPathIndex >= len(self.group.paths)):
+                        #Delete Enemy
+                        self.group.enemies = [];
+                        self.SendEndEvent();
+                        
+                    else:
+                        #Next Path
+                        self.__currentPath = self.group.paths[self.__currentPathIndex];
+                        self.__currentPath.BezierSpline.update();
+                        self.__currentPathPercent = 0;
+                        
+                #Get New position
+                coord = path.BezierSpline.getPoint(float(percent) / float(self.nbPoints));
+                
+                #Update Position
+                self.centerX = coord[0];
+                self.centerY = coord[1];
+                
+                self.__currentPathPercent += 1;
+                    
+                #Update Enemies       
+                for e in self.group.enemies:
+                    pos = self.group.GetEnemyPos(e);
+                    
+                    x = self.centerX + pos[0];
+                    y = self.centerY + pos[1];
+                            
+                    e.x = x;
+                    e.y = y;
+                    
+class ArcEffect(GroupEffect):
+    ARC_SPEED = 0.1;
+    def __init__(self,group):
+        GroupEffect.__init__(self, group);
+        self.centerX = 0;
+        self.centerY = 0;
+        if(len(group.paths) > 0):
+            self.__currentPath = self.group.paths[0];
+            self.__currentPath.BezierSpline.update();
+            self.__currentPathPercent = 0;
+            self.__currentPathIndex = 0;
+            
+            for e in self.group.enemies:
+                pos = self.group.GetEnemyPos(e);
+                
+                e.__line = Line(Point(pos[0],pos[1]),Point(-pos[0],-pos[1]));
+                e.__t = 0.0;
+                
+            
+            #TODO change for the length of the path
+            self.nbPoints = int(1000.0 / group.speed);
+            self.nbPointsInter = int(group.diffTime * FPS);
+            self.globalPoints = 0;
+    def getName(self):
+        return "Arc";
+    def animate(self):
+        if(len(self.group.paths) > 0):
+                #Enemy infos
+                path = self.__currentPath;
+                percent = self.__currentPathPercent;
+                
+                if(percent == self.nbPoints):
+                    self.__currentPathIndex = self.__currentPathIndex + 1;
+                    if(self.__currentPathIndex >= len(self.group.paths)):
+                        #Delete Enemy
+                        self.group.enemies = [];
+                        
+                        #clean enemy
+                        for e in self.group.enemies:
+                            del e.__line;
+                            del e.__t;
+                        self.SendEndEvent();
+                        
+                    else:
+                        #Next Path
+                        self.__currentPath = self.group.paths[self.__currentPathIndex];
+                        self.__currentPath.BezierSpline.update();
+                        self.__currentPathPercent = 0;
+                        
+                #Get New position
+                coord = path.BezierSpline.getPoint(float(percent) / float(self.nbPoints));
+                
+                #Update Position
+                self.centerX = coord[0];
+                self.centerY = coord[1];
+                
+                self.__currentPathPercent += 1;
+                    
+                #Update Enemies       
+                for e in self.group.enemies:
+                    pos = self.group.GetEnemyPos(e);
+
+                    p = e.__line.pointAt(e.__t);
+                    x = self.centerX + p.x;
+                    y = self.centerY + p.y;
+                    
+                    e.__t += ArcEffect.ARC_SPEED;
+                    
+                    if(e.__t >= 1.0):
+                        tmp = e.__line.p2;
+                        e.__line.p2 = e.__line.p1;
+                        e.__line.p1 = tmp;
+                        e.__t = 0;
+                        
+                    e.x = x;
+                    e.y = y;
+                                                        
 class CircleEffect(GroupEffect):
     def __init__(self,group):
         GroupEffect.__init__(self, group);
@@ -252,7 +372,7 @@ class CircleEffect(GroupEffect):
     
 class Engine:
     def __init__(self,groups):
-        GroupEffect.types = {EffectType.Zero : NormalEffect, EffectType.Circle : CircleEffect, EffectType.Switch : SwitchEffect};
+        GroupEffect.types = {EffectType.Zero : NormalEffect, EffectType.Circle : CircleEffect, EffectType.Switch : SwitchEffect, EffectType.Arc : ArcEffect,EffectType.Fixed : FixedEffect};
         self.effects = {};
         self.groups = [];
         for g in groups:

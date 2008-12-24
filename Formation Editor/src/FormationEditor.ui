@@ -51,7 +51,7 @@
        <item>
         <widget class="QTabWidget" name="ToolsTabs" >
          <property name="currentIndex" >
-          <number>1</number>
+          <number>0</number>
          </property>
          <widget class="QWidget" name="tab" >
           <attribute name="title" >
@@ -131,6 +131,13 @@
                <widget class="QPushButton" name="Save" >
                 <property name="text" >
                  <string>Save</string>
+                </property>
+               </widget>
+              </item>
+              <item>
+               <widget class="QPushButton" name="Load" >
+                <property name="text" >
+                 <string>Load</string>
                 </property>
                </widget>
               </item>
@@ -281,11 +288,6 @@
                    </item>
                    <item>
                     <property name="text" >
-                     <string>Fixed</string>
-                    </property>
-                   </item>
-                   <item>
-                    <property name="text" >
                      <string>Circle</string>
                     </property>
                    </item>
@@ -296,12 +298,17 @@
                    </item>
                    <item>
                     <property name="text" >
+                     <string>Arc</string>
+                    </property>
+                   </item>
+                   <item>
+                    <property name="text" >
                      <string>Rotate</string>
                     </property>
                    </item>
                    <item>
                     <property name="text" >
-                     <string>Arc</string>
+                     <string>Fixed</string>
                     </property>
                    </item>
                   </widget>

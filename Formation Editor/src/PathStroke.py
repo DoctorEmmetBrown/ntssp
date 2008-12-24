@@ -45,10 +45,10 @@ class PathStrokeRenderer(QWidget):
     def paint(self,painter):
 
         if(not self.Animation):
-            nbPaths = Data.getInstance().getNbEnemyPath();
+            nbPaths = SData.getInstance().getNbEnemyPath();
             
             for i in xrange(nbPaths):
-                ePath = Data.getInstance().getEnemyPath(i).BezierSpline;
+                ePath = SData.getInstance().getEnemyPath(i).BezierSpline;
                 path = QPainterPath();
                 count = ePath.getCurveCount();
                 if(count == 0):
@@ -76,23 +76,23 @@ class PathStrokeRenderer(QWidget):
                 painter.strokePath(path, pen);
         else:
             self.Animation = self.AnimEngine.GlobalAnimation();
-            nbM = Data.getInstance().getNbMonster();
+            nbM = SData.getInstance().getNbMonster();
             for i in xrange(nbM):
-                pos = (Data.getInstance().getMonster(i).x,Data.getInstance().getMonster(i).y);
-                painter.setPen(PathStrokeRenderer.ENEMY_COLOR[Data.getInstance().getMonster(i).life]);
-                painter.setBrush(PathStrokeRenderer.ENEMY_COLOR[Data.getInstance().getMonster(i).life]);
-                offset = PathStrokeRenderer.ENEMY_BASE_SIZE * Data.getInstance().getMonster(i).size / 2.0;
-                painter.drawEllipse(QRect(pos[0]-offset,pos[1]-offset,PathStrokeRenderer.ENEMY_BASE_SIZE * Data.getInstance().getMonster(i).size,PathStrokeRenderer.ENEMY_BASE_SIZE * Data.getInstance().getMonster(i).size));
+                pos = (SData.getInstance().getMonster(i).x,SData.getInstance().getMonster(i).y);
+                painter.setPen(PathStrokeRenderer.ENEMY_COLOR[SData.getInstance().getMonster(i).life]);
+                painter.setBrush(PathStrokeRenderer.ENEMY_COLOR[SData.getInstance().getMonster(i).life]);
+                offset = PathStrokeRenderer.ENEMY_BASE_SIZE * SData.getInstance().getMonster(i).size / 2.0;
+                painter.drawEllipse(QRect(pos[0]-offset,pos[1]-offset,PathStrokeRenderer.ENEMY_BASE_SIZE * SData.getInstance().getMonster(i).size,PathStrokeRenderer.ENEMY_BASE_SIZE * SData.getInstance().getMonster(i).size));
     def getCurrentPath(self):
         return self.currentPath;
     def mousePressEvent(self,e):
         
-        nbPaths = Data.getInstance().getNbEnemyPath();
+        nbPaths = SData.getInstance().getNbEnemyPath();
         distance = -1;
         currentPoint = None;
         currentPath = None;
         for i in xrange(nbPaths):
-            path = Data.getInstance().getEnemyPath(i);
+            path = SData.getInstance().getEnemyPath(i);
             ePath = path.BezierSpline;
             count = ePath.getCurveCount();
             for j in xrange(count):

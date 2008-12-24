@@ -9,6 +9,16 @@ class Point:
     def __eq__(self,o):
         return o.x == self.x and o.y == self.y;
             
+class Line:
+    def __init__(self,p1,p2):
+        self.p1 = p1;
+        self.p2 = p2;
+    def pointAt(self,t):
+        vx = float(self.p2.x - self.p1.x);
+        vy = float(self.p2.y - self.p1.y);
+        return Point(self.p1.x + vx * float(t), self.p1.y + vy * float(t));
+
+    
         
 #Cubic Bezier Curve
 class CubicBezier:
