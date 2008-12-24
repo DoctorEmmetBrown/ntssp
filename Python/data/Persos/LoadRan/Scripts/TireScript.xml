@@ -1,7 +1,0 @@
-<Script>
-	<Sprite>
-		<Frame>../Tire/Tire1.bmp</Frame>
-		<Frame>../Tire/Tire2.bmp</Frame>
-	</Sprite>
-	<Son>../Tire/Tire.wav</Son>
-</Script>
