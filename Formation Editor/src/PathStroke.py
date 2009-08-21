@@ -1,4 +1,5 @@
-﻿from PyQt4.QtGui import *
+# -*- coding: utf8 -*-
+from PyQt4.QtGui import *
 from PyQt4.QtCore import *
 from Data.Data import *
 CurveMode = 0
@@ -47,7 +48,7 @@ class PathStrokeRenderer(QWidget):
         if(not self.Animation):
             nbPaths = SData.getInstance().getNbEnemyPath();
             
-            for i in xrange(nbPaths):
+            for i in range(nbPaths):
                 ePath = SData.getInstance().getEnemyPath(i).BezierSpline;
                 path = QPainterPath();
                 count = ePath.getCurveCount();
@@ -55,10 +56,10 @@ class PathStrokeRenderer(QWidget):
                     continue;
                 path.moveTo(ePath.getCurve(0).points[0].x,ePath.getCurve(0).points[0].y);
                 lg = self.m_colors[i%len(self.m_colors)];
-                for j in xrange(count):
+                for j in range(count):
                     curve = ePath.getCurve(j);
                     path.cubicTo(curve.points[1].x,curve.points[1].y,curve.points[2].x,curve.points[2].y,curve.points[3].x,curve.points[3].y);
-                    for k in xrange(0,4):
+                    for k in range(0,4):
                         #Control Points
                         painter.setPen(QColor(50, 100, 120, 200));
                         painter.setBrush(QColor(50, 100, 120, 120));
@@ -77,7 +78,7 @@ class PathStrokeRenderer(QWidget):
         else:
             self.Animation = self.AnimEngine.GlobalAnimation();
             nbM = SData.getInstance().getNbMonster();
-            for i in xrange(nbM):
+            for i in range(nbM):
                 pos = (SData.getInstance().getMonster(i).x,SData.getInstance().getMonster(i).y);
                 painter.setPen(PathStrokeRenderer.ENEMY_COLOR[SData.getInstance().getMonster(i).life]);
                 painter.setBrush(PathStrokeRenderer.ENEMY_COLOR[SData.getInstance().getMonster(i).life]);
@@ -91,13 +92,13 @@ class PathStrokeRenderer(QWidget):
         distance = -1;
         currentPoint = None;
         currentPath = None;
-        for i in xrange(nbPaths):
+        for i in range(nbPaths):
             path = SData.getInstance().getEnemyPath(i);
             ePath = path.BezierSpline;
             count = ePath.getCurveCount();
-            for j in xrange(count):
+            for j in range(count):
                 curve = ePath.getCurve(j);
-                for k in xrange(4):
+                for k in range(4):
                     d = QLineF(e.pos().x(),e.pos().y(),curve.points[k].x,curve.points[k].y).length();
                     if ((distance < 0 and d < 8 * self.m_pointSize) or d < distance):
                         currentPoint = curve.points[k];

@@ -1,9 +1,9 @@
 # -*- coding: utf-8 -*-
 
-# Form implementation generated from reading ui file 'F:\Twinkle Star Sprites\NTSSP\Formation Editor\src\FormationEditor.ui'
+# Form implementation generated from reading ui file 'G:\Twinkle Star Sprites\NTSSP\Formation Editor\src\FormationEditor.ui'
 #
-# Created: Wed Dec 24 10:05:11 2008
-#      by: PyQt4 UI code generator 4.4.3
+# Created: Sun Aug 09 18:15:20 2009
+#      by: PyQt4 UI code generator 4.6-snapshot-20090808
 #
 # WARNING! All changes made in this file will be lost!
 
@@ -131,12 +131,12 @@ class Ui_MainWindow(object):
         self.horizontalLayout.addItem(spacerItem3)
         self.Formation_GroupEffectStyle = QtGui.QComboBox(self.widget)
         self.Formation_GroupEffectStyle.setObjectName("Formation_GroupEffectStyle")
-        self.Formation_GroupEffectStyle.addItem(QtCore.QString())
-        self.Formation_GroupEffectStyle.addItem(QtCore.QString())
-        self.Formation_GroupEffectStyle.addItem(QtCore.QString())
-        self.Formation_GroupEffectStyle.addItem(QtCore.QString())
-        self.Formation_GroupEffectStyle.addItem(QtCore.QString())
-        self.Formation_GroupEffectStyle.addItem(QtCore.QString())
+        self.Formation_GroupEffectStyle.addItem("")
+        self.Formation_GroupEffectStyle.addItem("")
+        self.Formation_GroupEffectStyle.addItem("")
+        self.Formation_GroupEffectStyle.addItem("")
+        self.Formation_GroupEffectStyle.addItem("")
+        self.Formation_GroupEffectStyle.addItem("")
         self.horizontalLayout.addWidget(self.Formation_GroupEffectStyle)
         self.verticalLayout_3.addWidget(self.widget)
         self.Groups_Add = QtGui.QPushButton(self.Formation_GroupsGroup)
@@ -221,8 +221,8 @@ class Ui_MainWindow(object):
         self.verticalLayout_5.addWidget(self.label_6)
         self.Association_Type = QtGui.QComboBox(self.Association_AssociationGroup)
         self.Association_Type.setObjectName("Association_Type")
-        self.Association_Type.addItem(QtCore.QString())
-        self.Association_Type.addItem(QtCore.QString())
+        self.Association_Type.addItem("")
+        self.Association_Type.addItem("")
         self.verticalLayout_5.addWidget(self.Association_Type)
         self.Association_TimeLabel = QtGui.QLabel(self.Association_AssociationGroup)
         self.Association_TimeLabel.setObjectName("Association_TimeLabel")

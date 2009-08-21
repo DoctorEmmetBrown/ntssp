@@ -1,3 +1,4 @@
+# -*- coding: utf8 -*-
 #simple Enemy class
 class Enemy:
     EnemyID = 0;
@@ -53,10 +54,10 @@ class Group:
         self.assoc = {};
         self.paths = [];
     def SetEnemyPos(self,enemy,x,y):
-        if(self.enemyPos.has_key(enemy)):
+        if(enemy in self.enemyPos):
             self.enemyPos[enemy] = (x,y);
     def GetEnemyPos(self,enemy):
-        if(self.enemyPos.has_key(enemy)):
+        if(enemy in self.enemyPos):
             return self.enemyPos[enemy];
         return (0,0);
     def ContainsEnemy(self,enemy):

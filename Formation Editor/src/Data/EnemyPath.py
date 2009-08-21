@@ -1,4 +1,5 @@
-from Bezier import *;
+# -*- coding: utf8 -*-
+from Data.Bezier import *;
 
 MAX_POINTS = 10000;
 MAX_ENEMIES_IN_FORMATION=20;

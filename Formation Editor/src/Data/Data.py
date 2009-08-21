@@ -1,5 +1,6 @@
-import Enemy;
-from EnemyPath import *;
+# -*- coding: utf8 -*-
+from Data.Enemy import *;
+from Data.EnemyPath import *;
 import pickle;
 
 class Data:
@@ -15,7 +16,7 @@ class Data:
            return self._monsters[i];
         return None;
     def newMonster(self,life,size,position):
-        monster = Enemy.Enemy(life,size,position);
+        monster = Enemy(life,size,position);
         self._monsters.append(monster);
     
     def deleteMonster(self,index):
@@ -27,7 +28,7 @@ class Data:
     def getNbMonster(self):
         return len(self._monsters);
     def newGroup(self,enemies,effectType,speed,diffTime):
-        group = Enemy.Group(effectType,speed,diffTime);
+        group = Group(effectType,speed,diffTime);
         for e in enemies:
             group.AddEnemy(e);
         self._groups.append(group);

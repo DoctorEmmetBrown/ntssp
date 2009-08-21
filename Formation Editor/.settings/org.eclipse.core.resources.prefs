@@ -1,8 +1,15 @@
-#Sat Nov 22 16:43:39 CET 2008
+#Fri Aug 21 22:11:52 CEST 2009
 eclipse.preferences.version=1
-encoding//src/FormationEditor.py=UTF-8
-encoding//src/FormationEditorWindow.py=UTF-8
-encoding//src/GroupEditor.py=UTF-8
-encoding//src/PathStroke.py=UTF-8
-encoding//src/main.py=UTF-8
-encoding//src/res.py=UTF-8
+encoding//src/Animation/Effects.py=utf8
+encoding//src/Animation/Engine.py=utf8
+encoding//src/Data/Bezier.py=utf8
+encoding//src/Data/Data.py=utf8
+encoding//src/Data/Enemy.py=utf8
+encoding//src/Data/EnemyPath.py=utf8
+encoding//src/FormationEditor.py=utf-8
+encoding//src/FormationEditorWindow.py=utf8
+encoding//src/GroupEditor.py=utf-8
+encoding//src/GroupEditorWindow.py=utf8
+encoding//src/PathStroke.py=utf8
+encoding//src/main.py=utf8
+encoding//src/res.py=utf-8

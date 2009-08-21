@@ -178,7 +178,7 @@ class FormationEditorWindow(QtGui.QMainWindow):
         return selected;
     def UpdateMonsters(self):
         self.ui.Formation_MonstersList.clear();
-        for i in xrange(SData.getInstance().getNbMonster()):
+        for i in range(SData.getInstance().getNbMonster()):
             self.ui.Formation_MonstersList.addTopLevelItem(self.GetMonsterUI(SData.getInstance().getMonster(i)));
     def GetMonsterUI(self,monster):
         item = QTreeWidgetItem();
@@ -241,7 +241,7 @@ class FormationEditorWindow(QtGui.QMainWindow):
         self.ui.Formation_GroupsList.clear();
         self.ui.Association_GroupsList.clear();
         self.ui.Time_GroupsList.clear();
-        for i in xrange(SData.getInstance().getNbGroups()):
+        for i in range(SData.getInstance().getNbGroups()):
             group = SData.getInstance().getGroup(i);
             item = self.GetGroupUI(group);
             self.ui.Formation_GroupsList.addTopLevelItem(item);
@@ -296,7 +296,7 @@ class FormationEditorWindow(QtGui.QMainWindow):
     def UpdatePaths(self):
         assocSelected = self.GetPathSelected(self.ui.Association_PathsList);
         self.ui.Association_PathsList.clear();
-        for i in xrange(SData.getInstance().getNbEnemyPath()):
+        for i in range(SData.getInstance().getNbEnemyPath()):
             path = SData.getInstance().getEnemyPath(i);
             item = self.GetPathUI(path);
             self.ui.Association_PathsList.addTopLevelItem(item);
