@@ -1,7 +1,6 @@
-﻿
+# -*- coding: utf8 -*-
 from Jeu.script import *
-from monster import *
-import monster
+from Jeu.monster import *
 import pygame.sprite
 import Application.App
 class Stage:
@@ -56,12 +55,12 @@ class Stage:
         isComboMax=False
         for m in Monster.explosion_group:
             m.update()
-            if(m.explosion.combo is not None and m.explosion.combo.combo == monster.combomax):
+            if(m.explosion.combo is not None and m.explosion.combo.combo == combomax):
                 isComboMax=True
-        monster.combomax=0
-        for k in Explosion.explosions_collide.keys():
+        combomax=0
+        for k in list(Explosion.explosions_collide.keys()):
             col = pygame.sprite.groupcollide(Explosion.explosions_collide[k],Monster.monsters_collide[k],False,False)
-            for k1 in col.keys():
+            for k1 in list(col.keys()):
                 if(k1.container.combo is None):
                     combo = Combo();
                 else:

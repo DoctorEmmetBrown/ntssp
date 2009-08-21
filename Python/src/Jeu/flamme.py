@@ -1,4 +1,4 @@
-﻿# -*- coding: utf8 -*-
+# -*- coding: utf8 -*-
 from Affichage.sprite import *
 import pygame.sprite
 

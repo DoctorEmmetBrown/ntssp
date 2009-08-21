@@ -1,3 +1,4 @@
+# -*- coding: utf8 -*-
 from Jeu.Spline.spline import *
 import re
 motif = re.compile("(Spline\d+\.\S+)\s*=\s*([-+]?(\d+(\.\d*)?|\d*\.\d+)([eE][-+]?\d+)?).*")
@@ -43,4 +44,4 @@ def parse(fichier):
 
 if __name__ == "__main__":
     sp = parse("C:\\Twinkle Star Sprites\\Python\\data\\Formation\\f1.txt")
-    print sp
+    print(sp)

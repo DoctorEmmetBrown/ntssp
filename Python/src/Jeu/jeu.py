@@ -6,7 +6,7 @@ from Xml.handlers import *
 from Input.joueur import *
 from Input.input_manager import *
 import Application.App
-import Jeu.monster
+from Jeu.monster import *
 import pygame.sprite
 class Jeu:
     def __init__(self,display):

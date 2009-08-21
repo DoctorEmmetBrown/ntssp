@@ -1,4 +1,5 @@
-﻿import math
+# -*- coding: utf8 -*-
+import math
 # balf = Bezier Arc Length Function
 balfax,balfbx,balfcx,balfay,balfby,balfcy = 0,0,0,0,0,0
 def balf(t):
@@ -22,20 +23,22 @@ def Simpson(f, a, b, n_limit, tolerance):
         asum += bsum
         bsum = 0.0
         est0 = est1
-        for i in xrange(1, n, 2):
+        for i in range(1, n, 2):
             bsum += f(a + (i * interval))
             est1 = multiplier * (endsum + (2.0 * asum) + (4.0 * bsum))
         #print multiplier, endsum, interval, asum, bsum, est1, est0
     return est1
 
-def bezierlengthSimpson(((bx0,by0),(bx1,by1),(bx2,by2),(bx3,by3)), tolerance = 0.001):
+def bezierlengthSimpson(bez, tolerance = 0.001):
+    ((bx0,by0),(bx1,by1),(bx2,by2),(bx3,by3)) = bez
     global balfax,balfbx,balfcx,balfay,balfby,balfcy
     ax,ay,bx,by,cx,cy,x0,y0=bezierparameterize(((bx0,by0),(bx1,by1),(bx2,by2),(bx3,by3)))
     balfax,balfbx,balfcx,balfay,balfby,balfcy = 3*ax,2*bx,cx,3*ay,2*by,cy
     return Simpson(balf, 0.0, 1.0, 4096, tolerance)
 
-def bezierparameterize(((bx0,by0),(bx1,by1),(bx2,by2),(bx3,by3))):
+def bezierparameterize(bez):
     #parametric bezier
+    ((bx0,by0),(bx1,by1),(bx2,by2),(bx3,by3)) = bez
     x0=bx0
     y0=by0
     cx=3*(bx1-x0)
@@ -47,7 +50,8 @@ def bezierparameterize(((bx0,by0),(bx1,by1),(bx2,by2),(bx3,by3))):
 
     return ax,ay,bx,by,cx,cy,x0,y0
     #ax,ay,bx,by,cx,cy,x0,y0=bezierparameterize(((bx0,by0),(bx1,by1),(bx2,by2),(bx3,by3)))
-def bezierpointatt(((bx0,by0),(bx1,by1),(bx2,by2),(bx3,by3)),t):
+def bezierpointatt(bez,t):
+    ((bx0,by0),(bx1,by1),(bx2,by2),(bx3,by3)) = bez
     ax,ay,bx,by,cx,cy,x0,y0=bezierparameterize(((bx0,by0),(bx1,by1),(bx2,by2),(bx3,by3)))
     x=ax*(t**3)+bx*(t**2)+cx*t+x0
     y=ay*(t**3)+by*(t**2)+cy*t+y0
@@ -83,12 +87,12 @@ class Bezier:
         
         return (x,y)
     def computeBezier(self,nbpoints):
-        print "NB : ",nbpoints
+        print("NB : ",nbpoints)
         dt = 1.0 / ( nbpoints - 1 );
         points=[]
         for i in range(nbpoints-1):
             points.append(self.__pointsf(i*dt))
-        print points
+        print(points)
         return points
     def length(self):
         self.length = bezierlengthSimpson(((self.__points[0].x,self.__points[0].y),(self.__points[1].x,self.__points[1].y),(self.__points[2].x,self.__points[2].y),(self.__points[3].x,self.__points[3].y)))

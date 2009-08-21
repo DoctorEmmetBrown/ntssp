@@ -1,4 +1,5 @@
-﻿class Effect:
+# -*- coding: utf8 -*-
+class Effect:
     def __init__(self,surfaces):
         self.surfaces = surfaces
         self.origpalettes = [surf.get_palette() for surf in surfaces]
@@ -29,7 +30,7 @@ class DefaultEffects(Effect):
         for i in range(len(self.surfaces)):
             self.setColorEffect(i, maskr, maskg, maskb)
     def setColorEffect(self,index,maskr,maskg,maskb):
-        if(self.coloreffects.has_key((index,maskr,maskg,maskb))):
+        if((index,maskr,maskg,maskb) in self.coloreffects):
             newpal=self.coloreffects[(index,maskr,maskg,maskb)]
         else:
             newpal =[(color[0] & maskr,color[1] & maskg, color[2] & maskb) for color in self.curpalettes[index]]
@@ -39,7 +40,7 @@ class DefaultEffects(Effect):
         for i in range(len(self.surfaces)):
             self.setBrightEffect(i,r,g,b)
     def setBrightEffect(self,index,r,g,b):
-        if(self.brighteffects.has_key((index,r,g,b))):
+        if((index,r,g,b) in self.brighteffects):
             newpal=self.brighteffects[(index,r,g,b)]
         else:
             newpal=[(min(color[0]+r,255),min(color[1]+g,255),min(color[2]+b,255)) for color in self.curpalettes[index]]

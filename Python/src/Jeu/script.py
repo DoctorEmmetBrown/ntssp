@@ -14,5 +14,5 @@ class FormationScript(object):
 
 def loadScript(fichier):
     glob = {}
-    execfile(fichier,glob)
+    exec(compile(open(fichier).read(), fichier, 'exec'),glob)
     return glob

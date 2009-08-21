@@ -1,4 +1,4 @@
-﻿
+# -*- coding: utf8 -*-
 from Affichage.sprite import *
 import pygame.sprite
 combomax = 0
@@ -27,14 +27,14 @@ class Explosion:
             self.combo.combo+=1
             if(self.combo.combo > combomax):
                 combomax = self.combo.combo
-            print combomax
+            print(combomax)
     def setNormal(self):
         self.isChaine=False
     def setPower(self,pow):
         self.pow=pow
         self.isBegin=True
     def load_collide(self):
-        if(not Explosion.explosions_collide.has_key((self.perso))):
+        if((self.perso) not in Explosion.explosions_collide):
             Explosion.explosions_collide[(self.perso)]=pygame.sprite.Group()
         (Explosion.explosions_collide[(self.perso)]).add(self.begin)
     def unload_collide(self):
@@ -101,7 +101,7 @@ class Monster:
             (Monster.monsters_collide[(self.perso)]).remove(self.curSprite)
     def load_collide(self):
         if(self.perso is not None):
-            if(not Monster.monsters_collide.has_key((self.perso))):
+            if((self.perso) not in Monster.monsters_collide):
                 Monster.monsters_collide[(self.perso)]=pygame.sprite.Group()
             (Monster.monsters_collide[(self.perso)]).add(self.curSprite)
     def destroy(self):

@@ -42,12 +42,11 @@ def get_image(filename, force_reload = 0):
     conversion; you'll have to do that manually, if you wish.
     """
 
-    if (force_reload == 1 or filename not in __images.keys()):
+    if (force_reload == 1 or filename not in list(__images.keys())):
         try:
             surface = pygame.image.load(filename)
-        except pygame.error,e:
-            print "hello",e
-            raise IOError, "File " + filename + " not found."
+        except pygame.error:
+            raise IOError from "File " + filename + " not found."
         __images[filename] = surface
         return surface
     else:
@@ -59,7 +58,7 @@ def has_image(filename):
     Returns true if the image is in memory, false if it has to be loaded from
     disk.
     """
-    return __images.has_key(filename)
+    return filename in __images
 
 def clear_image(filename):
     """
@@ -84,11 +83,11 @@ def get_font(filename, size, force_reload = 0):
     the disk the first time, then just return a reference to the copy each
     subsequent time.
     """
-    if (force_reload == 1 or filename not in __fonts.keys()):
+    if (force_reload == 1 or filename not in list(__fonts.keys())):
         try:
             font = pygame.font.Font( filename, size)
         except pygame.error:
-            raise IOError, "File " + filename + " not found."
+            raise IOError from "File " + filename + " not found."
         __fonts[filename] = font
         return font
     else:
@@ -100,7 +99,7 @@ def has_font(filename):
     Returns true if the font is in memory, false if it has to be loaded from
     disk.
     """
-    return __fonts.has_key(filename)
+    return filename in __fonts
 
 def clear_font(filename):
     """
@@ -123,11 +122,11 @@ def get_sound(filename, force_reload = 0):
     from the disk the first time, then just return a reference to the copy each
     subsequent time.
     """
-    if (force_reload == 1 or filename not in __fonts.keys()):
+    if (force_reload == 1 or filename not in list(__fonts.keys())):
         try:
             sound = pygame.mixer.Sound(filename)
         except pygame.error:
-            raise IOError, "File " + filename + " not found."
+            raise IOError from "File " + filename + " not found."
         __sounds[filename] = sound
         return sound
     else:
@@ -139,7 +138,7 @@ def has_sound(filename):
     Returns true if the sound is in memory, false if it has to be loaded from
     disk.
     """
-    return __sounds.has_key(filename)
+    return filename in __sounds
 
 def clear_sound(filename):
     """

@@ -1,4 +1,5 @@
-﻿from Jeu.script import *
+# -*- coding: utf8 -*-
+from Jeu.script import *
 from Xml.handlers import *
 class TireScript(Script):
     def __init__(self,t,perso):
@@ -47,4 +48,3 @@ def update():
         
 def load(app,perso):
     getScriptFromXML("..\data\Persos\LoadRan\Scripts\TireScript.xml",app.display.backbuffer)
-        

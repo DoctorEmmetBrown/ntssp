@@ -1,4 +1,5 @@
-﻿import pygame
+# -*- coding: utf8 -*-
+import pygame
 class Joueur:
     def __init__(self,perso):
         self.perso=perso

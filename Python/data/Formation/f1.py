@@ -31,4 +31,3 @@ def load(app):
     f = getFormationFromXML("..\\data\\Formation\\f1.xml",app.jeu.stage)
     for p in app.jeu.persos:
         form[(p)]=f.clone()
-        

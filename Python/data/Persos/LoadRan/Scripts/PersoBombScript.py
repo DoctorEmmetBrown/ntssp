@@ -52,4 +52,3 @@ def update():
         PersoBombScript.script.update()
 def load(app, perso):
     PersoBombScript.getSingleton(app, perso)
-        

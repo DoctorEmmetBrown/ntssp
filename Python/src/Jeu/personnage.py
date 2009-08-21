@@ -1,7 +1,8 @@
-﻿import pygame
+# -*- coding: utf8 -*-
+import pygame
 from Jeu.script import *
 import Application.App
-from monster import *
+from Jeu.monster import *
 def getSide(numJoueur,nbPlayer,sizeEcran):
     if(nbPlayer == 2):
         if(numJoueur == 1):
@@ -15,7 +16,7 @@ def getSide(numJoueur,nbPlayer,sizeEcran):
             width = sizeEcran[0]/2
             height = sizeEcran[1]
     r = pygame.Rect(x,y,width,height)
-    print r.right,r.left,r.top,r.bottom
+    print((r.right,r.left,r.top,r.bottom))
     return r
 class Personnage:
     def __init__(self,name,spIdle,spDroite,spGauche,scripts):
@@ -38,7 +39,7 @@ class Personnage:
     def setCoord(self,x,y):
         self.x=x
         self.y=y
-        print x,y
+        print((x,y))
     def setNumPlayer(self,numPlayer,nbPlayer):
         self.side = getSide(numPlayer,nbPlayer,(self.spIdle.screen.get_width(),self.spIdle.screen.get_height()))
         f = self.__bombscript["load"]
@@ -93,16 +94,15 @@ class Personnage:
             self.__isLeft=False
         f = self.__tirescript["update"]
         f()
-        import Jeu.monster
-        import pygame.sprite
-        d = pygame.sprite.groupcollide(self.__tirescript["tire_collide"],Jeu.monster.Monster.monsters_collide[(self)],False,False)
+
+        d = pygame.sprite.groupcollide(self.__tirescript["tire_collide"],Monster.monsters_collide[(self)],False,False)
         app = Application.App.App.getSingleton()
-        for l in d.values():
+        for l in list(d.values()):
             for m in l:
                     app.jeu.stage.touchedsound.play()
                     m.container.hit()
         f = self.__tirescript["collide"]
-        f(d.keys())
+        f(list(d.keys()))
         if(self.__tire):
             self.__lasttire=True
         else:
