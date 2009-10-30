@@ -13,7 +13,6 @@ using Microsoft.Xna.Framework.Storage;
 using Utils.Math;
 using DisplayEngine;
 using DisplayEngine.Display2D;
-using Shapes.Geometry;
 
 namespace AnimationEngine
 {
