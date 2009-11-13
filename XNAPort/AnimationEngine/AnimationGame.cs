@@ -21,7 +21,7 @@ namespace AnimationEngine
     /// </summary>
     public class AnimationGame : BaseGame
     {
-        public delegate void RenderDelegate();
+        public delegate void RenderDelegate(GameTime gameTime);
 
         RenderDelegate mRenderDelegate = null;
 
@@ -97,9 +97,10 @@ namespace AnimationEngine
         {
             GraphicsDevice.Clear(Color.CornflowerBlue);
 
+            DisplayManager.Instance.SpriteBatch.Begin();
             if (mRenderDelegate != null)
             {
-                mRenderDelegate();
+                mRenderDelegate(gameTime);
             }
             /*System.Windows.Forms.Control c = System.Windows.Forms.Control.FromHandle(BaseGame.DrawSurface);
             
@@ -125,6 +126,8 @@ namespace AnimationEngine
             bez.DrawControlPoints(rect);
             DisplayManager.Instance.SpriteBatch.End();*/
             base.Draw(gameTime);
+
+            DisplayManager.Instance.SpriteBatch.End();
         }
     }
 }

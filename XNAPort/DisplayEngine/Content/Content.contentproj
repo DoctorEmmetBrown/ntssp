@@ -44,6 +44,139 @@
       <Processor>EffectProcessor</Processor>
     </Compile>
   </ItemGroup>
+  <ItemGroup>
+    <Compile Include="M1Bleu.xml">
+      <Name>M1Bleu</Name>
+      <Importer>XmlImporter</Importer>
+      <Processor>SpriteSheetProcessor</Processor>
+    </Compile>
+    <Compile Include="M1Jaune.xml">
+      <Name>M1Jaune</Name>
+      <Importer>XmlImporter</Importer>
+      <Processor>SpriteSheetProcessor</Processor>
+    </Compile>
+    <Compile Include="M1Rouge.xml">
+      <Name>M1Rouge</Name>
+      <Importer>XmlImporter</Importer>
+      <Processor>SpriteSheetProcessor</Processor>
+    </Compile>
+    <Compile Include="M1Vert.xml">
+      <Name>M1Vert</Name>
+      <Importer>XmlImporter</Importer>
+      <Processor>SpriteSheetProcessor</Processor>
+    </Compile>
+    <Compile Include="M1Violet.xml">
+      <Name>M1Violet</Name>
+      <Importer>XmlImporter</Importer>
+      <Processor>SpriteSheetProcessor</Processor>
+    </Compile>
+    <Compile Include="M2Bleu.xml">
+      <Name>M2Bleu</Name>
+      <Importer>XmlImporter</Importer>
+      <Processor>SpriteSheetProcessor</Processor>
+    </Compile>
+    <Compile Include="M2Jaune.xml">
+      <Name>M2Jaune</Name>
+      <Importer>XmlImporter</Importer>
+      <Processor>SpriteSheetProcessor</Processor>
+    </Compile>
+    <Compile Include="M2Rouge.xml">
+      <Name>M2Rouge</Name>
+      <Importer>XmlImporter</Importer>
+      <Processor>SpriteSheetProcessor</Processor>
+    </Compile>
+    <Compile Include="M2Vert.xml">
+      <Name>M2Vert</Name>
+      <Importer>XmlImporter</Importer>
+      <Processor>SpriteSheetProcessor</Processor>
+    </Compile>
+    <Compile Include="M2Violet.xml">
+      <Name>M2Violet</Name>
+      <Importer>XmlImporter</Importer>
+      <Processor>SpriteSheetProcessor</Processor>
+    </Compile>
+    <Compile Include="M3Bleu.xml">
+      <Name>M3Bleu</Name>
+      <Importer>XmlImporter</Importer>
+      <Processor>SpriteSheetProcessor</Processor>
+    </Compile>
+    <Compile Include="M3Jaune.xml">
+      <Name>M3Jaune</Name>
+      <Importer>XmlImporter</Importer>
+      <Processor>SpriteSheetProcessor</Processor>
+    </Compile>
+    <Compile Include="M3Rouge.xml">
+      <Name>M3Rouge</Name>
+      <Importer>XmlImporter</Importer>
+      <Processor>SpriteSheetProcessor</Processor>
+    </Compile>
+    <Compile Include="M3Vert.xml">
+      <Name>M3Vert</Name>
+      <Importer>XmlImporter</Importer>
+      <Processor>SpriteSheetProcessor</Processor>
+    </Compile>
+    <Compile Include="M3Violet.xml">
+      <Name>M3Violet</Name>
+      <Importer>XmlImporter</Importer>
+      <Processor>SpriteSheetProcessor</Processor>
+    </Compile>
+    <Compile Include="M4Bleu.xml">
+      <Name>M4Bleu</Name>
+      <Importer>XmlImporter</Importer>
+      <Processor>SpriteSheetProcessor</Processor>
+    </Compile>
+    <Compile Include="M4Jaune.xml">
+      <Name>M4Jaune</Name>
+      <Importer>XmlImporter</Importer>
+      <Processor>SpriteSheetProcessor</Processor>
+    </Compile>
+    <Compile Include="M4Rouge.xml">
+      <Name>M4Rouge</Name>
+      <Importer>XmlImporter</Importer>
+      <Processor>SpriteSheetProcessor</Processor>
+    </Compile>
+    <Compile Include="M4Vert.xml">
+      <Name>M4Vert</Name>
+      <Importer>XmlImporter</Importer>
+      <Processor>SpriteSheetProcessor</Processor>
+    </Compile>
+    <Compile Include="M4Violet.xml">
+      <Name>M4Violet</Name>
+      <Importer>XmlImporter</Importer>
+      <Processor>SpriteSheetProcessor</Processor>
+    </Compile>
+    <Compile Include="M5Bleu.xml">
+      <Name>M5Bleu</Name>
+      <Importer>XmlImporter</Importer>
+      <Processor>SpriteSheetProcessor</Processor>
+    </Compile>
+    <Compile Include="M5Jaune.xml">
+      <Name>M5Jaune</Name>
+      <Importer>XmlImporter</Importer>
+      <Processor>SpriteSheetProcessor</Processor>
+    </Compile>
+    <Compile Include="M5Rouge.xml">
+      <Name>M5Rouge</Name>
+      <Importer>XmlImporter</Importer>
+      <Processor>SpriteSheetProcessor</Processor>
+    </Compile>
+    <Compile Include="M5Vert.xml">
+      <Name>M5Vert</Name>
+      <Importer>XmlImporter</Importer>
+      <Processor>SpriteSheetProcessor</Processor>
+    </Compile>
+    <Compile Include="M5Violet.xml">
+      <Name>M5Violet</Name>
+      <Importer>XmlImporter</Importer>
+      <Processor>SpriteSheetProcessor</Processor>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\SpriteSheetPipeline\SpriteSheetPipeline.csproj">
+      <Project>{288693A4-E777-4A32-A658-3AB8B48C8511}</Project>
+      <Name>SpriteSheetPipeline</Name>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Microsoft\XNA Game Studio\$(XnaFrameworkVersion)\Microsoft.Xna.GameStudio.ContentPipeline.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

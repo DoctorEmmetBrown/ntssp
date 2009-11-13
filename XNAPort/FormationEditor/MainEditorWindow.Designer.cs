@@ -271,6 +271,7 @@
             this.AnimateButton.TabIndex = 0;
             this.AnimateButton.Text = "Animate";
             this.AnimateButton.UseVisualStyleBackColor = true;
+            this.AnimateButton.Click += new System.EventHandler(this.AnimateButton_Click);
             // 
             // LoadButton
             // 

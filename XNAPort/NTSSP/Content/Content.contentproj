@@ -44,13 +44,6 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="XMLFile1.xml">
-      <Name>XMLFile1</Name>
-      <Importer>XmlImporter</Importer>
-      <Processor>SpriteSheetProcessor</Processor>
-    </Compile>
-  </ItemGroup>
-  <ItemGroup>
     <Compile Include="Background.xml">
       <Name>Background</Name>
       <Importer>XmlImporter</Importer>

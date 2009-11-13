@@ -38,8 +38,8 @@ namespace SpriteSheetPipeline
         /// </summary>
         public override string GetRuntimeReader(TargetPlatform targetPlatform)
         {
-            return "NTSSP.Utils.SpriteSheetReader, " +
-                   "NTSSP";
+            return "DisplayEngine.Utils.SpriteSheetReader, " +
+                   "DisplayEngine";
         }
 
 
@@ -49,8 +49,8 @@ namespace SpriteSheetPipeline
         /// </summary>
         public override string GetRuntimeType(TargetPlatform targetPlatform)
         {
-            return "NTSSP.Utils.Sprite, " +
-                   "NTSSP";
+            return "DisplayEngine.Display2D.Sprite, " +
+                   "DisplayEngine";
         }
     }
 }

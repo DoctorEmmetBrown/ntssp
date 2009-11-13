@@ -17,12 +17,15 @@ using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Input;
 using DisplayEngine;
 using DisplayEngine.Display2D;
+using System.Threading;
 namespace Utils.Math
 {
     public class CubicBezier
     {
+        internal BezierSpline mParent = null;
         private Vector2[] mPoints = new Vector2[4];
         private double mLength;
+        float[] mLengths = new float[3];
         private double q1, q2, q3, q4, q5;
 
         public Vector2[] Points
@@ -87,57 +90,137 @@ namespace Utils.Math
         {
             return d*d;
         }
+
+        float[, ,] mTable = new float[3, 1001, 2];
         double BezierArcLength()
         {
             float size = 0.0f;
-            for (float i = 0.0f; i < 1.0f - 0.01f; i+= 0.01f)
+            mTable[0, 0, 0] = 0.0f;
+            mTable[0, 0, 1] = 0.0f;
+            int j = 1;
+            for (float i = 0.0f; i < 1.0f - 0.001f; i += 0.001f)
             {
-                Vector2 p1 = GetPoint(i);
-                Vector2 p2 = GetPoint(i+0.01f);
+                Vector2 p1 = Vector2.CatmullRom(mPoints[0],mPoints[0],mPoints[1],mPoints[2],i);
+                Vector2 p2 = Vector2.CatmullRom(mPoints[0], mPoints[0], mPoints[1], mPoints[2], i + 0.001f);
+                
                 size += Vector2.Distance(p1, p2);
-            }
-            return size;
 
-            /*
-            double k1X = 0, k1Y = 0, k2X = 0, k2Y = 0, k3X = 0, k3Y = 0, k4X = 0, k4Y = 0;
-            
-            k1X = -mPoints[0].X + 3*(mPoints[1].X - mPoints[2].X) + mPoints[3].X;
-            k2X = 3*(mPoints[0].X + mPoints[2].X) - 6*mPoints[1].X;
-            k3X = 3*(mPoints[1].X - mPoints[0].X);
-            k4X = mPoints[0].X;
-            
-            k1Y = -mPoints[0].Y + 3*(mPoints[1].Y - mPoints[2].Y) + mPoints[3].Y;
-            k2Y = 3*(mPoints[0].Y + mPoints[2].Y) - 6*mPoints[1].Y;
-            k3Y = 3*(mPoints[1].Y- mPoints[0].Y);
-            k4Y = mPoints[0].Y;
-        
-            q1 = 9.0*(sqr(k1X) + sqr(k1Y));
-            q2 = 12.0*(k1X*k2X + k1Y*k2Y);
-            q3 = 3.0*(k1X*k3X + k1Y*k3Y) + 4.0*(sqr(k2X) + sqr(k2Y));
-            q4 = 4.0*(k2X*k3X + k2Y*k3Y);
-            q5 = sqr(k3X) + sqr(k3Y);
-        
-            return Simpson( 0, 1, 1024, 0.001);*/
+                mTable[0, j, 0] = size;
+                mTable[0, j, 1] = i + 0.001f;
+
+                j++;
+            }
+
+            mLengths[0] = size;
+            mTable[1, 0, 0] = 0.0f;
+            mTable[1, 0, 1] = 0.0f;
+            j = 1;
+            for (float i = 0.0f; i < 1.0f - 0.001f; i += 0.001f)
+            {
+                Vector2 p1 = Vector2.CatmullRom(mPoints[0], mPoints[1], mPoints[2], mPoints[3], i);
+                Vector2 p2 = Vector2.CatmullRom(mPoints[0], mPoints[1], mPoints[2], mPoints[3], i + 0.001f);
+                size += Vector2.Distance(p1, p2);
+
+                mTable[1, j, 0] = size - mLengths[0];
+                mTable[1, j, 1] = i + 0.001f;
+
+                j++;
+            }
+
+            mLengths[1] = size - mLengths[0];
+            mTable[2, 0, 0] = 0.0f;
+            mTable[2, 0, 1] = 0.0f;
+            j = 1;
+            for (float i = 0.0f; i < 1.0f - 0.001f; i += 0.001f)
+            {
+                Vector2 p1 = Vector2.CatmullRom(mPoints[1], mPoints[2], mPoints[3], mPoints[3], i);
+                Vector2 p2 = Vector2.CatmullRom(mPoints[1], mPoints[2], mPoints[3], mPoints[3], i + 0.001f);
+                size += Vector2.Distance(p1, p2);
+
+                mTable[2, j, 0] = size - mLengths[0] - mLengths[1];
+                mTable[2, j, 1] = i + 0.001f;
+
+                j++;
+            }
+
+            mLengths[2] = size - mLengths[1] - mLengths[0];
+
+            for (int i = 0; i < 3; i++)
+            {
+                for (int k = 0; k < 1001; k++)
+                {
+                    mTable[i, k, 0] = mTable[i, k, 0] / mLengths[i];
+                }
+            }
+
+            return size;
         }
 
+        public float GetSegPoint(float t, int i)
+        {
+            for(int j=0;j<1001;j++)
+            {
+                if(mTable[i,j,0] > t)
+                {
+                    return mTable[i,j - 1 , 1] + (t - mTable[i,j-1,0])/(mTable[i,j,0] - mTable[i,j-1,0]) * (mTable[i,j,1] - mTable[i,j-1,1]);
+                }
+            }
+            return 0.0f;
+        }
         public Vector2 GetPoint(float t)
         {
-            float x = -1;
-            float y = -1;
-            if (t >= 0 && t <= 1)
+            float totalper = 0;
+            int seg = 0;
+            float per = 0.0f;
+            for (int i = 0; i < 3; i++)
             {
-                float t2 = t * t;
-                float t3 = t2 * t;
-
-                float a = (-t3 + 3 * t2 - 3 * t + 1);
-                float b = (3 * t3 - 6 * t2 + 3 * t);
-                float c = (3 * t2 - 3 * t3);
-                float d = t3;
-
-                x = a*mPoints[0].X + b*mPoints[1].X + c*mPoints[2].X + d*mPoints[3].X;
-                y = a*mPoints[0].Y + b*mPoints[1].Y + c*mPoints[2].Y + d*mPoints[3].Y;
+                per = mLengths[i] / (float)mLength;
+                totalper += per;
+                if (t <= totalper)
+                {
+                    break;
+                }
+                seg++;
             }
-            return new Vector2(x,y);
+
+            if (seg > 2)
+            {
+                seg--;
+            }
+            totalper -= per;
+            float rt = System.Math.Max(System.Math.Min((t - totalper) / per, 1.0f), 0.0f);
+
+            Vector2 firstpoint = mPoints[0];
+            Vector2 lastpoint = mPoints[3];
+
+            if (mParent != null)
+            {
+                for (int i = 0; i < mParent.CurveCount; i++)
+                {
+                    if (mParent.GetCurve(i) == this)
+                    {
+                        if (i > 0)
+                        {
+                            firstpoint = mParent.GetCurve(i - 1).Points[2];
+                        }
+                        if (i < mParent.CurveCount - 1)
+                        {
+                            lastpoint = mParent.GetCurve(i + 1).Points[1];
+                        }
+                    }
+                }
+            }
+            switch (seg)
+            {
+                case 0:
+                    return Vector2.CatmullRom(firstpoint, mPoints[0], mPoints[1], mPoints[2], GetSegPoint(rt, 0));
+                case 1:
+                    return Vector2.CatmullRom(mPoints[0], mPoints[1], mPoints[2], mPoints[3], GetSegPoint(rt,1));
+                case 2:
+                    return Vector2.CatmullRom(mPoints[1], mPoints[2], mPoints[3], lastpoint, GetSegPoint(rt, 2));
+            }
+
+            return new Vector2();
         }
     }
 
@@ -185,10 +268,11 @@ namespace Utils.Math
                 }
             }
             mCurves.Add(curve);
+            curve.mParent = this;
             Update();
         }
 
-        void Update()
+        public void Update()
         {
             double total = 0;
             foreach(CubicBezier c in mCurves)
@@ -213,16 +297,16 @@ namespace Utils.Math
             {
                 per = (float)(c.Length/Length);
                 totalper += per;
-                if (t < totalper)
+                if (t <= totalper)
                 {
                     break;
                 }
                 n += 1;
             }
 
-            if (t == 1.0f)
+            if (n > CurveCount)
             {
-                n -= 1;
+                n--;
             }
             totalper -= per;
             float rt = System.Math.Max(System.Math.Min((t - totalper)/per,1.0f),0.0f);

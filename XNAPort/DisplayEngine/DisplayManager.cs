@@ -88,6 +88,24 @@ namespace DisplayEngine
             //view.AspectRatio = aWidth / aHeight;
             mGame.GraphicsDevice.Viewport = view;
         }
+
+        public Vector2 TranslateCoordToScreen(Vector2 aVect)
+        {
+
+            float x = (aVect.X / 100.0f) * (mGame.GraphicsDevice.Viewport.Width);
+            float y = (aVect.Y / 100.0f) * (mGame.GraphicsDevice.Viewport.Height);
+
+            return new Vector2(x, y);
+        }
+
+        public Vector2 TranslateCoordFromScreen(Vector2 aVect)
+        {
+            float x = (aVect.X / mGame.GraphicsDevice.Viewport.Width) * 100.0f;
+            float y = (aVect.Y / mGame.GraphicsDevice.Viewport.Height) * 100.0f;
+
+            return new Vector2(x, y);
+        }
+
         public static DisplayManager Instance
         {
             get

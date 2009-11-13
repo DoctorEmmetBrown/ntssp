@@ -36,6 +36,14 @@ namespace DisplayEngine.Display2D
 
         SpriteSheet mSpriteSheet;
 
+        public SpriteSheet SpriteSheet
+        {
+            get
+            {
+                return mSpriteSheet;
+            }
+        }
+
         double mSpeed = 30;
 
         public double Speed
@@ -74,8 +82,6 @@ namespace DisplayEngine.Display2D
                     mCurrentFrame = 0;
                 }
             }
-
-
         }
 
         public void Draw()

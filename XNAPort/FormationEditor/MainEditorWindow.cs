@@ -26,6 +26,8 @@ namespace FormationEditor
         BezierSpline mCurrentParentSpline = null;
         int mPointNumber = -1;
 
+        bool mAnimate = false;
+        Engine mCurrentEngine = null;
 
         public MainEditorWindow()
         {
@@ -36,9 +38,21 @@ namespace FormationEditor
             GameHandle.MouseDoubleClick += new MouseEventHandler(MouseDoubleClick);
         }
         
-        public void Render()
+        public void Render(GameTime gameTime)
         {
-            DisplayManager.Instance.SpriteBatch.Begin();
+
+
+            if (mAnimate)
+            {
+                if (mCurrentEngine == null)
+                {
+                    mCurrentEngine = new Engine(mFormation);
+                }
+
+                mCurrentEngine.GlobalAnimation(gameTime);
+
+
+            }
 
             foreach (BezierSpline spline in mFormation.Splines)
             {
@@ -46,7 +60,6 @@ namespace FormationEditor
                 spline.Draw(rect);
                 spline.DrawControlPoints(rect);
             }
-            DisplayManager.Instance.SpriteBatch.End();
 
         }
 
@@ -81,7 +94,6 @@ namespace FormationEditor
 
                 mCurrentSpline.Points[mPointNumber - 1].X = x;
                 mCurrentSpline.Points[mPointNumber - 1].Y = y;
-
                 if (mPointNumber == 1)
                 {
                     if (mPrevCurrentSpline != null)
@@ -99,6 +111,8 @@ namespace FormationEditor
                         mNextCurrentSpline.Points[0].Y = y;
                     }
                 }
+
+                this.mCurrentParentSpline.Update();
             }
         }
 
@@ -388,7 +402,7 @@ namespace FormationEditor
 
             EffectType type = EffectType.Zero;
 
-            switch(EffectTypeComboBox.SelectedText)
+            switch((string)EffectTypeComboBox.SelectedItem)
             {
                 case "Normal":
                     type = EffectType.Zero;
@@ -929,6 +943,11 @@ namespace FormationEditor
                 GroupEditor editor = new GroupEditor(toDelete[0]);
                 editor.ShowDialog();
             }
+        }
+
+        private void AnimateButton_Click(object sender, EventArgs e)
+        {
+            mAnimate = true;
         }
 
     }

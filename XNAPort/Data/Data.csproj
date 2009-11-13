@@ -121,6 +121,10 @@
     </BootstrapperPackage>
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\DisplayEngine\DisplayEngine.csproj">
+      <Project>{0B3B340C-2617-4A86-8DC9-E227DD29D2C3}</Project>
+      <Name>DisplayEngine</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Utils\Utils.csproj">
       <Project>{40AF0EB1-3B68-4640-A29A-71C2A3A32544}</Project>
       <Name>Utils</Name>
