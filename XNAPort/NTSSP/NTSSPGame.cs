@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using Data;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Audio;
 using Microsoft.Xna.Framework.Content;
@@ -22,12 +23,13 @@ namespace NTSSP
     {
         Sprite mSprite;
         GraphicsDeviceManager mGraphics;
+        private Formation mTestFormation;
+        private Level mLevel;
+        private LevelFlow mLevelFlow;
 
         public NTSSPGame()
         {
-            mGraphics = new GraphicsDeviceManager(this);
             Content.RootDirectory = "Content";
-            DisplayManager.CreateManager(this);
         }
 
         public GraphicsDeviceManager Graphics
@@ -53,13 +55,15 @@ namespace NTSSP
         /// </summary>
         protected override void LoadContent()
         {
-            mSprite = Content.Load<Sprite>("XMLFile1");
+            DisplayManager.CreateManager(this);
 
-            Background back = Content.Load<Background>("Background");
+            mTestFormation = Content.Load<Formation>("testFormation");
 
-            DisplayManager.Instance.DrawableLevelManager.AddSprite((IDrawable2D) back, 10);
-            DisplayManager.Instance.DrawableLevelManager.AddSprite((IDrawable2D)mSprite, 1);
-            // TODO: use this.Content to load your game content here
+            mLevel = new Level();
+
+            mLevel.Formations.Add(mTestFormation);
+
+            mLevelFlow = new LevelFlow(mLevel);
         }
 
         /// <summary>
@@ -82,7 +86,7 @@ namespace NTSSP
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed)
                 this.Exit();
 
-            // TODO: Add your update logic here
+            mLevelFlow.Update(aGameTime);
 
             base.Update(aGameTime);
         }

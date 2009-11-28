@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using Microsoft.Xna.Framework.Content;
 using Utils.Math;
 namespace Data
 {
@@ -14,15 +15,19 @@ namespace Data
     {
         private static int mNbInstance = 0;
 
+        [ContentSerializerIgnore]
         private int mGuid = 0;
 
+        [ContentSerializerIgnore]
         public int GUID
         {
             get { return mGuid; }
         }
 
+        [ContentSerializer]
         AssociationType mType;
 
+        [ContentSerializerIgnore]
         public AssociationType Type
         {
             get
@@ -31,27 +36,40 @@ namespace Data
             }
         }
 
+        [ContentSerializer(SharedResource = true)]
         Group mGroup;
 
+        [ContentSerializerIgnore]
         public Group Group
         {
             get { return mGroup; }
         }
 
+        [ContentSerializer(SharedResource = true)]
         BezierSpline mPath;
 
+        [ContentSerializerIgnore]
         public BezierSpline Path
         {
             get { return mPath; }
         }
 
+        [ContentSerializer]
         float mTimeBefore;
+
+        [ContentSerializerIgnore]
         public float TimeBefore
         {
             get
             {
                 return mTimeBefore;
             }
+        }
+
+        public Association()
+        {
+            mGuid = mNbInstance;
+            mNbInstance++;
         }
 
         public Association(AssociationType aType, Group aGroup, BezierSpline aPath, float aTimeBefore)
@@ -85,4 +103,6 @@ namespace Data
             return s;
         }
     }
+
+
 }

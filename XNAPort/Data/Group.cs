@@ -11,6 +11,8 @@ using Microsoft.Xna.Framework.Input;
 using Microsoft.Xna.Framework.Media;
 using Microsoft.Xna.Framework.Net;
 using Microsoft.Xna.Framework.Storage;
+using Utils;
+
 namespace Data
 {
     public enum EffectType
@@ -27,29 +29,37 @@ namespace Data
     {
         private static int mNbInstance = 0;
 
+        [ContentSerializerIgnore]
         private int mGuid = 0;
 
+        [ContentSerializerIgnore]
         public int GUID
         {
             get { return mGuid; }
         }
 
-        List<Association> mAssociations = new List<Association>();
+        [ContentSerializer(SharedResource = true)]
+        SharedResourceList<Association> mAssociations = new SharedResourceList<Association>();
 
+        [ContentSerializerIgnore]
         public List<Association> Associations
         {
             get { return mAssociations; }
         }
 
-        Dictionary<Monster, Vector2> mMonsters = new Dictionary<Monster,Vector2>();
+        [ContentSerializer(SharedResource = true)]
+        SharedResourceDictionary<Monster, Vector2> mMonsters = new SharedResourceDictionary<Monster, Vector2>();
 
+        [ContentSerializerIgnore]
         public Dictionary<Monster, Vector2> Monsters
         {
             get { return mMonsters; }
         }
 
-        List<Monster> mMonstersOrder = new List<Monster>();
+        [ContentSerializer(SharedResource = true)]
+        SharedResourceList<Monster> mMonstersOrder = new SharedResourceList<Monster>();
 
+        [ContentSerializerIgnore]
         public List<Monster> MonstersOrder
         {
             get
@@ -58,8 +68,10 @@ namespace Data
             }
         }
 
+        [ContentSerializer]
         EffectType mEffectType;
 
+        [ContentSerializerIgnore]
         public EffectType EffectType
         {
             get
@@ -72,8 +84,10 @@ namespace Data
             }
         }
 
+        [ContentSerializer]
         float mSpeed;
 
+        [ContentSerializerIgnore]
         public float Speed
         {
             get
@@ -86,8 +100,10 @@ namespace Data
             }
         }
 
+        [ContentSerializer]
         float mDiffTime;
 
+        [ContentSerializerIgnore]
         public float DiffTime
         {
             get { return mDiffTime; }
@@ -95,6 +111,12 @@ namespace Data
             {
             	mDiffTime = value;
             }
+        }
+
+        public Group()
+        {
+            mGuid = mNbInstance;
+            mNbInstance++;
         }
 
         public Group(EffectType aType, float aSpeed, float aDiffTime)

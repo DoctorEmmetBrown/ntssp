@@ -47,7 +47,7 @@ namespace DisplayEngine.Display2D
         private float m_fThickness = 1f;
 
         /// <summary>1x1 pixel that creates the shape.</summary>
-        private Texture2D m_Pixel = null;
+        private static Texture2D m_Pixel = null;
 
         /// <summary>List of vectors.</summary>
         private List<Vector2> m_VectorList = new List<Vector2>();
@@ -137,12 +137,14 @@ namespace DisplayEngine.Display2D
         //////////////////////////////////////////////////////////////////////////
         public BasicPrimitives(GraphicsDevice _graphicsDevice)
         {
-            //////////////////////////////////////////////////////////////////////////
-            // Create the pixel texture.
-            m_Pixel = new Texture2D(_graphicsDevice, 1, 1, 1, TextureUsage.None, SurfaceFormat.Color);
-            m_Pixel.SetData<Color>(new Color[] { Color.White });
-            //
-            //////////////////////////////////////////////////////////////////////////
+            if(m_Pixel == null)
+            {
+                // Create the pixel texture.
+                m_Pixel = new Texture2D(_graphicsDevice, 1, 1, 1, TextureUsage.None, SurfaceFormat.Color);
+                m_Pixel.SetData<Color>(new Color[] { Color.White });
+                //
+                //////////////////////////////////////////////////////////////////////////   
+            }
         }
 
         //////////////////////////////////////////////////////////////////////////
@@ -152,7 +154,6 @@ namespace DisplayEngine.Display2D
         //////////////////////////////////////////////////////////////////////////
         ~BasicPrimitives()
         {
-            m_Pixel.Dispose();
             m_VectorList.Clear();
         }
 

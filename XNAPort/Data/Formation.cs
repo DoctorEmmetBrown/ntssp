@@ -2,14 +2,18 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using Microsoft.Xna.Framework.Content;
 using Utils.Math;
+using Utils;
 
 namespace Data
 {
     public class Formation
     {
-        List<Group> mGroups = new List<Group>();
+        [ContentSerializer(SharedResource = true)]
+        SharedResourceList<Group> mGroups = new SharedResourceList<Group>();
 
+        [ContentSerializerIgnore]
         public List<Group> Groups
         {
             get
@@ -18,8 +22,10 @@ namespace Data
             }
         }
 
-        List<Monster> mMonsters = new List<Monster>();
+        [ContentSerializer(SharedResource = true)]
+        SharedResourceList<Monster> mMonsters = new SharedResourceList<Monster>();
 
+        [ContentSerializerIgnore]
         public List<Monster> Monsters
         {
             get
@@ -27,23 +33,30 @@ namespace Data
                 return mMonsters;
             }
         }
-        List<BezierSpline> mSplines = new List<BezierSpline>();
 
+        [ContentSerializer(SharedResource = true)]
+        SharedResourceList<BezierSpline> mSplines = new SharedResourceList<BezierSpline>();
+
+        [ContentSerializerIgnore]
         public List<BezierSpline> Splines
         {
             get { return mSplines; }
         }
 
-        List<Association> mAssociations = new List<Association>();
+        [ContentSerializer(SharedResource = true)]
+        SharedResourceList<Association> mAssociations = new SharedResourceList<Association>();
 
+        [ContentSerializerIgnore]
         public List<Association> Associations
         {
             get { return mAssociations; }
         }
 
-        Dictionary<BezierSpline, List<Association>> mSplinesAssociations = new Dictionary<BezierSpline, List<Association>>();
+        [ContentSerializer(SharedResource = true)]
+        SharedResourceDictionary<BezierSpline, SharedResourceList<Association>> mSplinesAssociations = new SharedResourceDictionary<BezierSpline, SharedResourceList<Association>>();
 
-        public Dictionary<BezierSpline, List<Association>> SplinesAssociations
+        [ContentSerializerIgnore]
+        public Dictionary<BezierSpline, SharedResourceList<Association>> SplinesAssociations
         {
             get
             {

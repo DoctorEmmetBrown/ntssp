@@ -85,6 +85,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="LevelFlow.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="NTSSPGame.cs" />
@@ -130,6 +131,10 @@
     <None Include="ClassDiagram1.cd" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Data\Data.csproj">
+      <Project>{09B4E5C4-D94A-4FFE-8391-6DA322663E2E}</Project>
+      <Name>Data</Name>
+    </ProjectReference>
     <ProjectReference Include="..\DisplayEngine\DisplayEngine.csproj">
       <Project>{0B3B340C-2617-4A86-8DC9-E227DD29D2C3}</Project>
       <Name>DisplayEngine</Name>

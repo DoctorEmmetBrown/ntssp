@@ -37,6 +37,15 @@ namespace DisplayEngine.Display2D
             return mLevels[aLevel];
         }
 
+        public void RemoveSprite(uint aLevel, Sprite aSprite)
+        {
+            if (!mLevels.ContainsKey(aLevel))
+            {
+                return;
+            }
+            mLevels[aLevel].Remove(aSprite);
+        }
+
         public override void Draw(GameTime aGameTime)
         {
 

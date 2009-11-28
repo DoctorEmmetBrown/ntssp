@@ -43,8 +43,11 @@ namespace DisplayEngine
 
         private void VisibleChanged(object sender, EventArgs e)
         {
-            if (System.Windows.Forms.Control.FromHandle((this.Window.Handle)).Visible == true)
-                System.Windows.Forms.Control.FromHandle((this.Window.Handle)).Visible = false;
+            if (mDrawSurface.ToInt32() != 0)
+            {
+                if (System.Windows.Forms.Control.FromHandle((this.Window.Handle)).Visible == true)
+                    System.Windows.Forms.Control.FromHandle((this.Window.Handle)).Visible = false;
+            }
         }
 
         private void PreparingDeviceSettingsEvent(object sender, PreparingDeviceSettingsEventArgs aEvent)

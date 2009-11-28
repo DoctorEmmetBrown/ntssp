@@ -3,16 +3,19 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Drawing;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Windows.Forms;
+using System.Xml;
 using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Content.Pipeline.Serialization.Intermediate;
 using Microsoft.Xna.Framework.GamerServices;
 using DisplayEngine;
 using DisplayEngine.Display2D;
 using AnimationEngine;
 using Data;
-
+using Utils;
 using Utils.Math;
 
 namespace FormationEditor
@@ -624,7 +627,7 @@ namespace FormationEditor
                         mFormation.Associations.Add(assoc);
                         if (!mFormation.SplinesAssociations.Keys.Contains(toAssoc[0]))
                         {
-                            mFormation.SplinesAssociations.Add(toAssoc[0],new List<Association>());
+                            mFormation.SplinesAssociations.Add(toAssoc[0],new SharedResourceList<Association>());
                         }
                         mFormation.SplinesAssociations[toAssoc[0]].Add(assoc);
 
@@ -948,6 +951,90 @@ namespace FormationEditor
         private void AnimateButton_Click(object sender, EventArgs e)
         {
             mAnimate = true;
+        }
+
+        private void SaveButton_Click(object sender, EventArgs e)
+        {
+            Stream myStream = null;
+            SaveFileDialog saveFileDialog = new SaveFileDialog();
+
+            saveFileDialog.InitialDirectory = "c:\\";
+            saveFileDialog.Filter = "xml files (*.xml)|*.xml|All files (*.*)|*.*";
+            saveFileDialog.FilterIndex = 2;
+            saveFileDialog.RestoreDirectory = true;
+
+            if (saveFileDialog.ShowDialog() == DialogResult.OK)
+            {
+                try
+                {
+                    if ((myStream = saveFileDialog.OpenFile()) != null)
+                    {
+                        using (myStream)
+                        {
+                            XmlWriterSettings s = new XmlWriterSettings();
+                            s.Indent = true;
+                            XmlWriter writer = XmlWriter.Create(myStream,s);
+                            IntermediateSerializer.Serialize<Formation>(writer,mFormation,null);
+                            writer.Close();
+                            myStream.Close();
+                        }
+                    }
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show("Error: Could not read file from disk. Original error: " + ex.Message);
+                }
+            }
+
+        }
+
+        private void LoadButton_Click(object sender, EventArgs e)
+        {
+            Stream myStream = null;
+            OpenFileDialog openFileDialog = new OpenFileDialog();
+
+            openFileDialog.InitialDirectory = "c:\\";
+            openFileDialog.Filter = "xml files (*.xml)|*.xml|All files (*.*)|*.*";
+            openFileDialog.FilterIndex = 2;
+            openFileDialog.RestoreDirectory = true;
+
+            if (openFileDialog.ShowDialog() == DialogResult.OK)
+            {
+                try
+                {
+                    if ((myStream = openFileDialog.OpenFile()) != null)
+                    {
+                        using (myStream)
+                        {
+                            mFormation = null;
+                            mCurrentSpline = null;
+                            mNextCurrentSpline = null;
+                            mPrevCurrentSpline = null;
+                            mCurrentParentSpline = null;
+                            mPointNumber = -1;
+
+                            mAnimate = false;
+                            mCurrentEngine = null;
+                            XmlReader reader = XmlReader.Create(myStream);
+                            mFormation = IntermediateSerializer.Deserialize<Formation>(reader,null);
+
+                            RefreshAll();
+
+                            foreach (BezierSpline spline in mFormation.Splines)
+                            {
+                                spline.Update();
+                            }
+
+                            reader.Close();
+                            myStream.Close();
+                        }
+                    }
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show("Error: Could not read file from disk. Original error: " + ex.Message);
+                }
+            }
         }
 
     }

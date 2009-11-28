@@ -22,10 +22,19 @@ namespace Utils.Math
 {
     public class CubicBezier
     {
+        [ContentSerializer(SharedResource = true)]
         internal BezierSpline mParent = null;
+
+        [ContentSerializer]
         private Vector2[] mPoints = new Vector2[4];
+
+        [ContentSerializer]
         private double mLength;
+
+        [ContentSerializer]
         float[] mLengths = new float[3];
+
+        [ContentSerializerIgnore]
         private double q1, q2, q3, q4, q5;
 
         public Vector2[] Points
@@ -36,6 +45,10 @@ namespace Utils.Math
         public double Length
         {
             get { return mLength; }
+        }
+
+        public CubicBezier()
+        {
         }
 
         public CubicBezier(Vector2 aP1, Vector2 aP2, Vector2 aP3, Vector2 aP4)
@@ -228,14 +241,19 @@ namespace Utils.Math
     {
         private static int mNbInstance = 0;
 
+        [ContentSerializerIgnore]
         private int mGuid = 0;
 
+        [ContentSerializerIgnore]
         public int GUID
         {
             get { return mGuid; }
         }
 
-        private List<CubicBezier> mCurves = new List<CubicBezier>();
+        [ContentSerializer]
+        private SharedResourceList<CubicBezier> mCurves = new SharedResourceList<CubicBezier>();
+
+        [ContentSerializer]
         private double mLength = 0;
 
         public int CurveCount

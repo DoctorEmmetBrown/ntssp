@@ -1,0 +1,18 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<XnaContent>
+  <!-- TODO: replace this Asset with your own XML asset data. -->
+  <Asset Type="SpriteSheetPipeline.SpriteSheetXMLData">
+    <colorKey>FFF800F8</colorKey>
+    <files>
+      <Item>1.bmp</Item>
+      <Item>2.bmp</Item>
+      <Item>3.bmp</Item>
+      <Item>4.bmp</Item>
+      <Item>5.bmp</Item>
+      <Item>6.bmp</Item>
+    </files>
+    <animationSpeed>
+      30.0
+    </animationSpeed>
+  </Asset>
+</XnaContent>

@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using DisplayEngine.Display2D;
+using Microsoft.Xna.Framework.Content;
+using Utils;
 
 namespace Data
 {
@@ -10,55 +12,79 @@ namespace Data
     {
         private static int mNbInstance = 0;
 
+        [ContentSerializerIgnore]
+        private Sprite mSprite = null;
 
-        private Sprite mSprite;
-
+        [ContentSerializerIgnore]
         public Sprite Sprite
         {
-            get { return mSprite; }
+            get
+            {
+                return mSprite;
+            }
+
+            set
+            {
+                mSprite = value;
+            }
         }
 
+        [ContentSerializerIgnore]
         public int X
         {
-            get{ return mSprite.X;}
-            set { mSprite.X = value; }
+            get { return Sprite.X; }
+            set { Sprite.X = value; }
         }
 
+        [ContentSerializerIgnore]
         public int Y
         {
-            get { return mSprite.Y; }
-            set { mSprite.Y = value; }
+            get { return Sprite.Y; }
+            set { Sprite.Y = value; }
         }
 
-        List<Group> mGroups = new List<Group>();
+        [ContentSerializer(SharedResource = true)]
+        SharedResourceList<Group> mGroups = new SharedResourceList<Group>();
 
+        [ContentSerializerIgnore]
         public List<Group> Groups
         {
             get { return mGroups; }
         }
 
-
+        [ContentSerializerIgnore]
         private int mGuid = 0;
 
+        [ContentSerializerIgnore]
         public int GUID
         {
             get { return mGuid; }
         }
 
+        [ContentSerializer]
         private int mColor = 0;
 
+        [ContentSerializerIgnore]
         public int Color
         {
             get{ return mColor; }
             set{ mColor = value;}
         }
 
+        [ContentSerializer]
         private int mSize = 0;
 
+        [ContentSerializerIgnore]
         public int Size
         {
             get { return mSize; }
             set { mSize = value; }
+        }
+
+        public Monster()
+        {
+            mGuid = mNbInstance;
+            mNbInstance++;   
         }
 
         public Monster(int aSize, int aColor)
@@ -127,5 +153,6 @@ namespace Data
 
             return values;
         }
+
     }
 }
