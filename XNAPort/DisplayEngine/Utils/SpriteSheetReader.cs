@@ -26,7 +26,7 @@ namespace DisplayEngine.Utils
                                             Sprite aExistingInstance)
         {
             SpriteSheet s= new SpriteSheet(aInput);
-            Sprite sprite = new Sprite(aInput.ReadDouble(),s);
+            Sprite sprite = new Sprite(aInput.ReadObject<double>(),s);
             return sprite;
         }
     }

@@ -60,6 +60,7 @@
       <Private>False</Private>
       <SpecificVersion>True</SpecificVersion>
     </Reference>
+    <Reference Include="Microsoft.Xna.Framework.Content.Pipeline, Version=3.1.0.0, Culture=neutral, PublicKeyToken=6d5c3888ef60e27d, processorArchitecture=x86" />
     <Reference Include="Microsoft.Xna.Framework.Game, Version=3.1.0.0, Culture=neutral, PublicKeyToken=6d5c3888ef60e27d, processorArchitecture=MSIL">
       <Private>False</Private>
       <SpecificVersion>True</SpecificVersion>
@@ -85,6 +86,9 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="CollisionManager.cs" />
+    <Compile Include="FlamePath.cs" />
+    <Compile Include="Player.cs" />
     <Compile Include="LevelFlow.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Program.cs" />
@@ -135,6 +139,10 @@
       <Project>{09B4E5C4-D94A-4FFE-8391-6DA322663E2E}</Project>
       <Name>Data</Name>
     </ProjectReference>
+    <ProjectReference Include="..\DefaultScript\DefaultScripts.csproj">
+      <Project>{D7293ADF-867B-4677-8247-52A32673F7F8}</Project>
+      <Name>DefaultScripts</Name>
+    </ProjectReference>
     <ProjectReference Include="..\DisplayEngine\DisplayEngine.csproj">
       <Project>{0B3B340C-2617-4A86-8DC9-E227DD29D2C3}</Project>
       <Name>DisplayEngine</Name>
@@ -142,6 +150,18 @@
     <ProjectReference Include="..\AnimationEngine\AnimationEngine.csproj">
       <Project>{FFFB7A75-8BA4-4D3F-B31E-B30C76B04167}</Project>
       <Name>AnimationEngine</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Input\Input.csproj">
+      <Project>{45217817-4922-419A-83B7-97CC83C0B7FC}</Project>
+      <Name>Input</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\ScriptEngine\ScriptEngine.csproj">
+      <Project>{264C6ED9-BFBC-4A31-A6A8-73203B424616}</Project>
+      <Name>ScriptEngine</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Utils\Utils.csproj">
+      <Project>{40AF0EB1-3B68-4640-A29A-71C2A3A32544}</Project>
+      <Name>Utils</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />

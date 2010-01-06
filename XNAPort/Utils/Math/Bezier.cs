@@ -251,7 +251,7 @@ namespace Utils.Math
         }
 
         [ContentSerializer]
-        private SharedResourceList<CubicBezier> mCurves = new SharedResourceList<CubicBezier>();
+        private List<CubicBezier> mCurves = new List<CubicBezier>();
 
         [ContentSerializer]
         private double mLength = 0;

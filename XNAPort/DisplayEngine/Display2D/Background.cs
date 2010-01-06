@@ -155,7 +155,7 @@ namespace DisplayEngine.Display2D
             }
         }
 
-        public void Draw()
+        public void Draw(int aNumScreen)
         {
             int height = 0;
             foreach (Rectangle r in mRects)

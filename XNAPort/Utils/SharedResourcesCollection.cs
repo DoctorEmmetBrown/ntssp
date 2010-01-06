@@ -4,6 +4,12 @@ using System.Linq;
 using System.Text;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Content.Pipeline.Serialization.Intermediate;
+using System;
+using System.Collections;
+using System.Diagnostics;
+using System.Reflection;
+using System.Runtime.InteropServices;
+using System.Runtime.Serialization;
 
 namespace Utils
 {
@@ -51,11 +57,13 @@ namespace Utils
     [ContentTypeSerializer]
     class SharedResourceDictionnarySerializer<TKey, TValue> : ContentTypeSerializer<SharedResourceDictionary<TKey, TValue>>
     {
+        public Dictionary<int, TKey> mKeys = new Dictionary<int, TKey>();
+        public Dictionary<int, TValue> mValues = new Dictionary<int, TValue>();
+
         static ContentSerializerAttribute Keyformat = new ContentSerializerAttribute()
         {
             ElementName = "Key"
         };
-
         static ContentSerializerAttribute Valueformat = new ContentSerializerAttribute()
         {
             ElementName = "Value"
@@ -69,8 +77,16 @@ namespace Utils
         {
             foreach (TKey item in value.Keys)
             {
-                output.WriteSharedResource(item, Keyformat);
-                output.WriteSharedResource(value[item], Valueformat);
+                output.WriteSharedResource<TKey>(item, Keyformat);
+
+                if (default(TValue) is ValueType)
+                {
+                    output.WriteObject<TValue>(value[item], Valueformat);
+                }
+                else
+                {
+                    output.WriteSharedResource<TValue>(value[item], Valueformat);
+                }
             }
         }
 
@@ -82,18 +98,40 @@ namespace Utils
             if (existingInstance == null)
                 existingInstance = new SharedResourceDictionary<TKey,TValue>();
 
+            int i = 0;
             while (input.MoveToElement(Keyformat.ElementName))
             {
-                TKey key = default(TKey);
-                input.ReadSharedResource(Keyformat, (TKey item) => key = item);
+                input.ReadSharedResource<TKey>(Keyformat,delegate(TKey item)
+                {
+                    mKeys.Add(i,item);
 
-                TValue value = default(TValue);
+                    if(mValues.ContainsKey(i))
+                    {
+                        existingInstance.Add(mKeys[i],mValues[i]);
+                    }
+                });
+
                 if(input.MoveToElement(Valueformat.ElementName))
                 {
-                    input.ReadSharedResource(Valueformat, (TValue item) => value = item);
-                    existingInstance.Add(key,value);
-                }
+                    if (default(TValue) is ValueType)
+                    {
+                        TValue value = input.ReadObject<TValue>(Valueformat);
+                        mValues.Add(i, value);
+                    }
+                    else
+                    {
+                        input.ReadSharedResource<TValue>(Valueformat, delegate(TValue item)
+                        {
+                            mValues.Add(i, item);
 
+                            if (mKeys.ContainsKey(i))
+                            {
+                                existingInstance.Add(mKeys[i], mValues[i]);
+                            }
+                        });
+                    }
+                }
+                i++;
             }
 
             return existingInstance;

@@ -37,10 +37,18 @@ namespace Utils.Math
                 return mP2;
             }
         }
+
+        private float mSize;
+        public float Size
+        {
+            get { return mSize; }
+        }
         public Line(Vector2 aP1, Vector2 aP2)
         {
             mP1 = aP1;
             mP2 = aP2;
+
+            mSize = Vector2.Distance(mP1, mP1);
         }
 
         public Vector2 At(float t)

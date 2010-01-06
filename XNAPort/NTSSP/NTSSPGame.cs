@@ -13,6 +13,22 @@ using Microsoft.Xna.Framework.Net;
 using Microsoft.Xna.Framework.Storage;
 using DisplayEngine.Display2D;
 using DisplayEngine;
+using System.IO;
+using System;
+using System.Collections.Generic;
+using System.ComponentModel;
+using System.Data;
+using System.Drawing;
+using System.IO;
+using System.Linq;
+using System.Text;
+using System.Windows.Forms;
+using System.Xml;
+using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Content.Pipeline.Serialization.Intermediate;
+using Microsoft.Xna.Framework.GamerServices;
+using Input;
+using DefaultScript;
 
 namespace NTSSP
 {
@@ -23,13 +39,39 @@ namespace NTSSP
     {
         Sprite mSprite;
         GraphicsDeviceManager mGraphics;
+        private List<ContentManager> mCopyContentManager = new List<ContentManager>();
         private Formation mTestFormation;
-        private Level mLevel;
+        private Level mLevel, mLevel2;
         private LevelFlow mLevelFlow;
-
+        private LevelFlow mLevelFlow2;
+        private Character mTestCharacter;
+        private Player mPlayer, mPlayer2;
+        private CollisionManager mCollisionManager, mCollisionManager2;
+        private static NTSSPGame mInstance;
         public NTSSPGame()
         {
+            mInstance = this;
             Content.RootDirectory = "Content";
+            mCopyContentManager.Add(new ContentManager(Services));
+            mCopyContentManager[0].RootDirectory = "Content";
+        }
+
+        public static NTSSPGame Instance
+        {
+            get { return mInstance; }
+        }
+
+        public Player GetPlayer(int aNum)
+        {
+            if(aNum == 0)
+            {
+                return mPlayer;
+            }
+            else
+            {
+                return mPlayer2;
+            }
+            
         }
 
         public GraphicsDeviceManager Graphics
@@ -45,6 +87,7 @@ namespace NTSSP
         /// </summary>
         protected override void Initialize()
         {
+            InputManager.CreateInstance(this);
             // TODO: Add your initialization logic here
             base.Initialize();
         }
@@ -55,15 +98,45 @@ namespace NTSSP
         /// </summary>
         protected override void LoadContent()
         {
-            DisplayManager.CreateManager(this);
+            DisplayManager.CreateManager(this,2);
+
+            /*FileStream myStream = new FileStream("..\\..\\..\\Content\\testFormation.xml",FileMode.Open);
+            XmlReader reader = XmlReader.Create(myStream);
+            mTestFormation = IntermediateSerializer.Deserialize<Formation>(reader, null);
+
+            reader.Close();
+            myStream.Close();*/
+
+            mTestCharacter = Content.Load<Character>("TestCharacter");
+
+            mTestCharacter.ChargedAttackScript = new DefaultSuperAttack();
+
+            mPlayer = new Player(this,0);
+
+            mPlayer2 = new Player(this,1);
+
+            mPlayer2.Character = mTestCharacter;
+
+            mPlayer.Character = mTestCharacter;
+
+            Components.Add(mPlayer2);
+
+            Components.Add(mPlayer);
 
             mTestFormation = Content.Load<Formation>("testFormation");
 
             mLevel = new Level();
 
+            mLevel2 = new Level();
+
+            mLevel2.Formations.Add(mCopyContentManager[0].Load<Formation>("testFormation"));
             mLevel.Formations.Add(mTestFormation);
 
-            mLevelFlow = new LevelFlow(mLevel);
+            mLevelFlow = new LevelFlow(mLevel,0);
+            mLevelFlow2 = new LevelFlow(mLevel2,1);
+
+            mCollisionManager = new CollisionManager(mPlayer,mLevelFlow,0);
+            mCollisionManager2 = new CollisionManager(mPlayer2,mLevelFlow2,1);
         }
 
         /// <summary>
@@ -83,10 +156,16 @@ namespace NTSSP
         protected override void Update(GameTime aGameTime)
         {
             // Allows the game to exit
-            if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed)
+            if (GamePad.GetState(PlayerIndex.One).Buttons.Back == Microsoft.Xna.Framework.Input.ButtonState.Pressed)
                 this.Exit();
 
             mLevelFlow.Update(aGameTime);
+
+            mLevelFlow2.Update(aGameTime);
+
+            mCollisionManager.Update(aGameTime);
+
+            mCollisionManager2.Update(aGameTime);
 
             base.Update(aGameTime);
         }

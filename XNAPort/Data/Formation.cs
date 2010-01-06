@@ -10,7 +10,7 @@ namespace Data
 {
     public class Formation
     {
-        [ContentSerializer(SharedResource = true)]
+        [ContentSerializer]
         SharedResourceList<Group> mGroups = new SharedResourceList<Group>();
 
         [ContentSerializerIgnore]
@@ -34,7 +34,7 @@ namespace Data
             }
         }
 
-        [ContentSerializer(SharedResource = true)]
+        [ContentSerializer]
         SharedResourceList<BezierSpline> mSplines = new SharedResourceList<BezierSpline>();
 
         [ContentSerializerIgnore]
@@ -43,7 +43,7 @@ namespace Data
             get { return mSplines; }
         }
 
-        [ContentSerializer(SharedResource = true)]
+        [ContentSerializer]
         SharedResourceList<Association> mAssociations = new SharedResourceList<Association>();
 
         [ContentSerializerIgnore]
@@ -52,7 +52,7 @@ namespace Data
             get { return mAssociations; }
         }
 
-        [ContentSerializer(SharedResource = true)]
+        [ContentSerializer]
         SharedResourceDictionary<BezierSpline, SharedResourceList<Association>> mSplinesAssociations = new SharedResourceDictionary<BezierSpline, SharedResourceList<Association>>();
 
         [ContentSerializerIgnore]

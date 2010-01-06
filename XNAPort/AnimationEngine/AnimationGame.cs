@@ -60,7 +60,7 @@ namespace AnimationEngine
         protected override void LoadContent()
         {
             // Create a new SpriteBatch, which can be used to draw textures.
-            DisplayManager.CreateManager(this);
+            DisplayManager.CreateManager(this,1);
             // TODO: use this.Content to load your game content here
         }
 

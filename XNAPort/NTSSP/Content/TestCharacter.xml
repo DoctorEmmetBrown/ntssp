@@ -1,0 +1,15 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<XnaContent>
+  <!-- TODO: replace this Asset with your own XML asset data. -->
+  <Asset Type="SpriteSheetPipeline.CharacterXmlData">
+    <IdleSpriteName>DefaultSpriteIdle</IdleSpriteName>
+    <LeftSpriteName>DefaultSpriteLeft</LeftSpriteName>
+    <RightSpriteName>DefaultSpriteRight</RightSpriteName>
+    <ShotSpriteName>DefaultSpriteShot</ShotSpriteName>
+    <LowShotSpriteName>DefaultSpriteLowShot</LowShotSpriteName>
+    <ChargedAttackSpritesNames>
+      <Item>DefaultSpriteSuperAttack;DefaultSpriteSuperAttack</Item>
+    </ChargedAttackSpritesNames>
+    <ChargedAttackScriptPath></ChargedAttackScriptPath>
+  </Asset>
+</XnaContent>

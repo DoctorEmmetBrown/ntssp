@@ -1,0 +1,105 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<XnaContent>
+  <Asset Type="Data.Formation">
+    <mGroups>
+      <Item>#Resource1</Item>
+    </mGroups>
+    <mMonsters>#Resource2</mMonsters>
+    <mSplines>
+      <Item>#Resource3</Item>
+    </mSplines>
+    <mAssociations>
+      <Item>#Resource4</Item>
+    </mAssociations>
+    <mSplinesAssociations>
+      <Key>#Resource3</Key>
+      <Value>#Resource5</Value>
+    </mSplinesAssociations>
+  </Asset>
+  <Resources>
+    <Resource ID="#Resource1" Type="Data.Group">
+      <mAssociations>
+        <Item>#Resource4</Item>
+      </mAssociations>
+      <mMonsters>#Resource6</mMonsters>
+      <mMonstersOrder>#Resource7</mMonstersOrder>
+      <mEffectType>Zero</mEffectType>
+      <mSpeed>1.03</mSpeed>
+      <mDiffTime>1.5</mDiffTime>
+    </Resource>
+    <Resource ID="#Resource2" Type="Utils.SharedResourceList[Data.Monster]">
+      <Item>#Resource8</Item>
+      <Item>#Resource9</Item>
+      <Item>#Resource10</Item>
+      <Item>#Resource11</Item>
+    </Resource>
+    <Resource ID="#Resource3" Type="Utils.Math.BezierSpline">
+      <mCurves>
+        <Item>
+          <mParent>#Resource3</mParent>
+          <mPoints>50 0 78 18 23 35 60 76</mPoints>
+          <mLength>150.26005554199219</mLength>
+          <mLengths>35.14859 58.65187 56.4595947</mLengths>
+        </Item>
+      </mCurves>
+      <mLength>150.26005554199219</mLength>
+    </Resource>
+    <Resource ID="#Resource4" Type="Data.Association">
+      <mType>Normal</mType>
+      <mGroup>#Resource1</mGroup>
+      <mPath>#Resource3</mPath>
+      <mTimeBefore>0</mTimeBefore>
+    </Resource>
+    <Resource ID="#Resource5" Type="Utils.SharedResourceList[Data.Association]">
+      <Item>#Resource4</Item>
+    </Resource>
+    <Resource ID="#Resource6" Type="Utils.SharedResourceDictionary[Data.Monster,Microsoft.Xna.Framework.Vector2]">
+      <Key>#Resource11</Key>
+      <Value>0 0</Value>
+      <Key>#Resource8</Key>
+      <Value>0 0</Value>
+      <Key>#Resource9</Key>
+      <Value>0 0</Value>
+      <Key>#Resource10</Key>
+      <Value>0 0</Value>
+    </Resource>
+    <Resource ID="#Resource7" Type="Utils.SharedResourceList[Data.Monster]">
+      <Item>#Resource11</Item>
+      <Item>#Resource8</Item>
+      <Item>#Resource9</Item>
+      <Item>#Resource10</Item>
+    </Resource>
+    <Resource ID="#Resource8" Type="Data.Monster">
+      <mGroups>#Resource12</mGroups>
+      <mColor>1</mColor>
+      <mSize>1</mSize>
+    </Resource>
+    <Resource ID="#Resource9" Type="Data.Monster">
+      <mGroups>#Resource13</mGroups>
+      <mColor>1</mColor>
+      <mSize>1</mSize>
+    </Resource>
+    <Resource ID="#Resource10" Type="Data.Monster">
+      <mGroups>#Resource14</mGroups>
+      <mColor>1</mColor>
+      <mSize>1</mSize>
+    </Resource>
+    <Resource ID="#Resource11" Type="Data.Monster">
+      <mGroups>#Resource15</mGroups>
+      <mColor>1</mColor>
+      <mSize>1</mSize>
+    </Resource>
+    <Resource ID="#Resource12" Type="Utils.SharedResourceList[Data.Group]">
+      <Item>#Resource1</Item>
+    </Resource>
+    <Resource ID="#Resource13" Type="Utils.SharedResourceList[Data.Group]">
+      <Item>#Resource1</Item>
+    </Resource>
+    <Resource ID="#Resource14" Type="Utils.SharedResourceList[Data.Group]">
+      <Item>#Resource1</Item>
+    </Resource>
+    <Resource ID="#Resource15" Type="Utils.SharedResourceList[Data.Group]">
+      <Item>#Resource1</Item>
+    </Resource>
+  </Resources>
+</XnaContent>

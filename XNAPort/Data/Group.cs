@@ -38,7 +38,7 @@ namespace Data
             get { return mGuid; }
         }
 
-        [ContentSerializer(SharedResource = true)]
+        [ContentSerializer]
         SharedResourceList<Association> mAssociations = new SharedResourceList<Association>();
 
         [ContentSerializerIgnore]
@@ -47,7 +47,7 @@ namespace Data
             get { return mAssociations; }
         }
 
-        [ContentSerializer(SharedResource = true)]
+        [ContentSerializer(SharedResource=true)]
         SharedResourceDictionary<Monster, Vector2> mMonsters = new SharedResourceDictionary<Monster, Vector2>();
 
         [ContentSerializerIgnore]

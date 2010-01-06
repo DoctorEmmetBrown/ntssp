@@ -19,6 +19,12 @@ namespace DisplayEngine
 {
     public class DisplayManager
     {
+        private ScreenSplitter mScreenSplitter;
+
+        public ScreenSplitter ScreenSplitter
+        {
+            get { return mScreenSplitter; }
+        }
         private Game mGame;
 
         public Game Game
@@ -66,7 +72,7 @@ namespace DisplayEngine
 
         private static DisplayManager mInstance = null;
 
-        private DisplayManager(Game aGame)
+        private DisplayManager(Game aGame, int aNbPlayer)
         {
             mGame = aGame;
             mSpriteBatch = new SpriteBatch(aGame.GraphicsDevice);
@@ -74,6 +80,8 @@ namespace DisplayEngine
             mDrawLevelManager = new DrawableLevelManager(aGame);
             mRoundLineManager = new RoundLineManager();
             mRoundLineManager.Init(aGame.GraphicsDevice, aGame.Content);
+            Rectangle rect = new Rectangle(0,0,aGame.GraphicsDevice.Viewport.Width,aGame.GraphicsDevice.Viewport.Height);
+            mScreenSplitter = new ScreenSplitter(rect, aNbPlayer);
 
             mGame.Components.Add(mDrawLevelManager);
         }
@@ -89,23 +97,6 @@ namespace DisplayEngine
             mGame.GraphicsDevice.Viewport = view;
         }
 
-        public Vector2 TranslateCoordToScreen(Vector2 aVect)
-        {
-
-            float x = (aVect.X / 100.0f) * (mGame.GraphicsDevice.Viewport.Width);
-            float y = (aVect.Y / 100.0f) * (mGame.GraphicsDevice.Viewport.Height);
-
-            return new Vector2(x, y);
-        }
-
-        public Vector2 TranslateCoordFromScreen(Vector2 aVect)
-        {
-            float x = (aVect.X / mGame.GraphicsDevice.Viewport.Width) * 100.0f;
-            float y = (aVect.Y / mGame.GraphicsDevice.Viewport.Height) * 100.0f;
-
-            return new Vector2(x, y);
-        }
-
         public static DisplayManager Instance
         {
             get
@@ -114,9 +105,9 @@ namespace DisplayEngine
             }
         }
 
-        public static bool CreateManager(Game aGame)
+        public static bool CreateManager(Game aGame,int aNbPlayer)
         {
-            mInstance = new DisplayManager(aGame);
+            mInstance = new DisplayManager(aGame, aNbPlayer);
 
             return true;
         }

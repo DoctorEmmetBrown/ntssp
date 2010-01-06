@@ -86,7 +86,7 @@
     <Compile Include="Math\Bezier.cs" />
     <Compile Include="Math\Line.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="SharedResourcesCollection.cs" />
+    <Compile Include="Math\SharedResourcesCollection.cs" />
   </ItemGroup>
   <ItemGroup>
     <NestedContentProject Include="Content\Content.contentproj">

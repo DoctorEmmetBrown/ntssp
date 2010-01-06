@@ -143,6 +143,14 @@ namespace AnimationEngine
                     BezierSpline path = mEnemies[m].Spline;
                     int percent = mEnemies[m].Percent;
 
+                    if(m.IsExplosing)
+                    {
+                        toDelete.Add(m);
+                        continue;
+                    }
+
+                    m.Sprite.Visible = true;
+
                     if (percent == mNbPoints)
                     {
                         mEnemies[m].Index += 1;
@@ -154,6 +162,7 @@ namespace AnimationEngine
                             if (EndEnemy != null)
                             {
                                 EndEnemy(this);
+                                m.Sprite.Visible = false;
                             }
                             continue;
 
@@ -167,17 +176,24 @@ namespace AnimationEngine
 
                     Vector2 coord = mEnemies[m].Spline.getPoint(((float)mEnemies[m].Percent) / ((float)mNbPoints));
 
-                    coord = DisplayEngine.DisplayManager.Instance.TranslateCoordToScreen(coord);
-                    m.X = (int)coord.X;
-                    m.Y = (int)coord.Y;
+                    m.X = coord.X;
+                    m.Y = coord.Y;
 
                     mEnemies[m].Percent += 1;
                 }
 
+                foreach (Monster m in toDelete)
+                {
+                    mEnemies.Remove(m);
+                    mEnemiesOrder.Remove(m);
+                }
+
+                mEnemyIndex = Math.Min(mEnemyIndex, mEnemies.Count - 1);
+
                 TimeSpan span = mLastTime;
                 span = span.Add(TimeSpan.FromSeconds(mGroup.DiffTime));
 
-                if (mEnemyIndex < mGroup.MonstersOrder.Count - 1 && span <= aGameTime.TotalGameTime)
+                if (mEnemyIndex < mEnemies.Count - 1 && span <= aGameTime.TotalGameTime)
                 {
                     mEnemyIndex += 1;
                     mLastTime = aGameTime.TotalGameTime;
@@ -261,6 +277,10 @@ namespace AnimationEngine
                             if (End != null)
                             {
                                 End(this);
+                                foreach (Monster m in mEnemies.Keys)
+                                {
+                                    m.Sprite.Visible = false;
+                                }
                             }
                             return;
 
@@ -274,17 +294,23 @@ namespace AnimationEngine
 
                     Vector2 coord = mPath.Spline.getPoint(((float)mPath.Percent) / ((float)mNbPoints));
 
-                    coord = DisplayEngine.DisplayManager.Instance.TranslateCoordToScreen(coord);
-                    mCenter.X = (int)coord.X;
-                    mCenter.Y = (int)coord.Y;
+                    mCenter.X = coord.X;
+                    mCenter.Y = coord.Y;
 
                    mPath.Percent += 1;
        
                 foreach(Monster m in mEnemies.Keys)
                 {
+                    if (m.IsExplosing)
+                    {
+                        continue;
+                    }
+
+                    m.Sprite.Visible = true;
+
                     SwitchStruct str = mEnemies[m];
 
-                    Vector2 pos = DisplayEngine.DisplayManager.Instance.TranslateCoordToScreen(str.Line.At(str.t));
+                    Vector2 pos = str.Line.At(str.t);
 
                     float x = mCenter.X + pos.X;
                     float y = mCenter.Y + pos.Y;
@@ -298,8 +324,8 @@ namespace AnimationEngine
                     }
  
 
-                    m.X = (int)x;
-                    m.Y = (int)y;
+                    m.X = x;
+                    m.Y = y;
                 }
             }
         }
@@ -373,6 +399,10 @@ namespace AnimationEngine
                         if (End != null)
                         {
                             End(this);
+                            foreach (Monster m in mEnemies.Keys)
+                            {
+                                m.Sprite.Visible = false;
+                            }
                         }
                         return;
 
@@ -386,17 +416,23 @@ namespace AnimationEngine
 
                 Vector2 coord = mPath.Spline.getPoint(((float)mPath.Percent) / ((float)mNbPoints));
 
-                coord = DisplayEngine.DisplayManager.Instance.TranslateCoordToScreen(coord);
-                mCenter.X = (int)coord.X;
-                mCenter.Y = (int)coord.Y;
+                mCenter.X = coord.X;
+                mCenter.Y = coord.Y;
 
                 mPath.Percent += 1;
 
                 foreach (Monster m in mEnemies.Keys)
                 {
+                    if (m.IsExplosing)
+                    {
+                        continue;
+                    }
+
+                    m.Sprite.Visible = true;
+
                     SwitchStruct str = mEnemies[m];
 
-                    Vector2 pos = DisplayEngine.DisplayManager.Instance.TranslateCoordToScreen(str.Line.At(str.t));
+                    Vector2 pos = str.Line.At(str.t);
 
                     float x = mCenter.X + pos.X;
                     float y = mCenter.Y + pos.Y;
@@ -410,8 +446,8 @@ namespace AnimationEngine
                     }
 
 
-                    m.X = (int)x;
-                    m.Y = (int)y;
+                    m.X = x;
+                    m.Y = y;
                 }
             }
         }
@@ -483,6 +519,10 @@ namespace AnimationEngine
                         if (End != null)
                         {
                             End(this);
+                            foreach (Monster m in mEnemies)
+                            {
+                                m.Sprite.Visible = false;
+                            }
                         }
                         return;
 
@@ -496,21 +536,27 @@ namespace AnimationEngine
 
                 Vector2 coord = mPath.Spline.getPoint(((float)mPath.Percent) / ((float)mNbPoints));
 
-                coord = DisplayEngine.DisplayManager.Instance.TranslateCoordToScreen(coord);
-                mCenter.X = (int)coord.X;
-                mCenter.Y = (int)coord.Y;
+                mCenter.X = coord.X;
+                mCenter.Y = coord.Y;
 
                 mPath.Percent += 1;
 
                 foreach (Monster m in mEnemies)
                 {
-                    Vector2 pos = DisplayEngine.DisplayManager.Instance.TranslateCoordToScreen(mGroup.Monsters[m]);
+                    if (m.IsExplosing)
+                    {
+                        continue;
+                    }
+
+                    m.Sprite.Visible = true;
+
+                    Vector2 pos = mGroup.Monsters[m];
 
                     float x = mCenter.X + pos.X;
                     float y = mCenter.Y + pos.Y;
 
-                    m.X = (int)x;
-                    m.Y = (int)y;
+                    m.X = x;
+                    m.Y = y;
                 }
             }
         }
@@ -602,6 +648,10 @@ namespace AnimationEngine
                         if (End != null)
                         {
                             End(this);
+                            foreach (Monster m in mEnemies.Keys)
+                            {
+                                m.Sprite.Visible = false;
+                            }
                         }
                         return;
 
@@ -615,21 +665,27 @@ namespace AnimationEngine
 
                 Vector2 coord = mPath.Spline.getPoint(((float)mPath.Percent) / ((float)mNbPoints));
 
-                coord = DisplayEngine.DisplayManager.Instance.TranslateCoordToScreen(coord);
-                mCenter.X = (int)coord.X;
-                mCenter.Y = (int)coord.Y;
+                mCenter.X = coord.X;
+                mCenter.Y = coord.Y;
 
                 mPath.Percent += 1;
 
                 foreach (Monster m in mEnemies.Keys)
                 {
+                    if (m.IsExplosing)
+                    {
+                        continue;
+                    }
+
+                    m.Sprite.Visible = true;
+
                     CircleStruct str = mEnemies[m];
 
                     float x = mCenter.X + str.Ray * (float)Math.Cos(str.Degree);
                     float y = mCenter.Y + str.Ray * (float)Math.Sin(str.Degree);
 
-                    m.X = (int)x;
-                    m.Y = (int)y;
+                    m.X = x;
+                    m.Y = y;
 
                     if(str.Degree > Math.PI)
                     {

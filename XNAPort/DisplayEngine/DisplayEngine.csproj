@@ -65,10 +65,6 @@
     <Reference Include="mscorlib">
       <Private>False</Private>
     </Reference>
-    <Reference Include="Shapes.Windows, Version=2.5.0.0, Culture=neutral, processorArchitecture=x86">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\ShapeLib\bin\Xna3.1\x86\Release\Shapes.Windows.dll</HintPath>
-    </Reference>
     <Reference Include="System">
       <Private>False</Private>
     </Reference>
@@ -99,6 +95,7 @@
     <Compile Include="Display2D\PrimitiveBatch.cs" />
     <Compile Include="DisplayManager.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="ScreenSplitter.cs" />
     <Compile Include="Utils\SpriteSheet.cs" />
     <Compile Include="Utils\SpriteSheetReader.cs" />
   </ItemGroup>

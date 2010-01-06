@@ -17,6 +17,6 @@ namespace DisplayEngine.Display2D
     public interface IDrawable2D
     {
         void Update(GameTime aGameTime);
-        void Draw();
+        void Draw(int aNumScreen);
     }
 }
