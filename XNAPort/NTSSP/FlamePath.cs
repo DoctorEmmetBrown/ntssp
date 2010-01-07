@@ -58,8 +58,7 @@ namespace NTSSP
 
     public class ParabolicPath : FlamePath
     {
-        private Vector2 P1, P2, P3, P4;
-        private CubicBezier mSpline;
+        private BezierSpline mSpline;
         public ParabolicPath(Vector2 aMonster, Vector2 aPlayer2)
             : base(aMonster, aPlayer2)
         {
@@ -78,23 +77,30 @@ namespace NTSSP
             float nx = (sign > 0) ? -50 : 150;
 
 
+            mSpline = new BezierSpline();
 
              if (sign > 0)
             {
-                mSpline = new CubicBezier(aMonster, new Vector2(aMonster.X - t / 3.0f, a1 * (aMonster.X - t / 3.0f) + b1),
-                                          new Vector2(aPlayer2.X + t / 3.0f, a * (aPlayer2.X + t / 3.0f) + b), new Vector2(nx, a * nx + b));
+                mSpline.AddCurve(new CubicBezier(aMonster, new Vector2(aMonster.X - t / 3.0f, a1 * (aMonster.X - t / 3.0f) + b1),
+                         new Vector2(aPlayer2.X + t / 3.0f, a * (aPlayer2.X + t / 3.0f) + b), new Vector2(aPlayer2.X + t / 8.0f, a * (aPlayer2.X + t / 8.0f) + b)));
+                mSpline.AddCurve(new CubicBezier(new Vector2(aPlayer2.X + t / 8.0f, a * (aPlayer2.X + t / 8.0f) + b), aPlayer2, new Vector2(aPlayer2.X - 2 * t / 3.0f, a * (aPlayer2.X - 2 * t / 3.0f) + b), new Vector2(nx, a * nx + b)));
+
             }
             else
             {
-                mSpline = new CubicBezier(aMonster, new Vector2(aMonster.X + t / 3.0f, a1 * (aMonster.X + t / 3.0f) + b1),
-                          new Vector2(aPlayer2.X - t / 3.0f, a * (aPlayer2.X - t / 3.0f) + b), new Vector2(nx, a * nx + b));
+                mSpline.AddCurve(new CubicBezier(aMonster, new Vector2(aMonster.X + t / 3.0f, a1 * (aMonster.X + t / 3.0f) + b1),
+                         new Vector2(aPlayer2.X - t / 3.0f, a * (aPlayer2.X - t / 3.0f) + b), new Vector2(aPlayer2.X - t / 8.0f, a * (aPlayer2.X - t / 8.0f) + b)));
+                mSpline.AddCurve(new CubicBezier(new Vector2(aPlayer2.X - t / 8.0f, a * (aPlayer2.X - t / 8.0f) + b), aPlayer2, new Vector2(aPlayer2.X + 2 * t / 3.0f, a * (aPlayer2.X + 2 * t / 3.0f) + b), new Vector2(nx, a * nx + b)));
+
+                /*mSpline = new CubicBezier(aMonster, new Vector2(aMonster.X + t / 3.0f, a1 * (aMonster.X + t / 3.0f) + b1),
+                          new Vector2(aPlayer2.X - t / 3.0f, a * (aPlayer2.X - t / 3.0f) + b), new Vector2(nx, a * nx + b));*/
             }
             mSpline.Update();
          }
 
         public override Vector2 At(float t)
         {
-            return Vector2.Hermite(P1, P2, P4, P3, t);
+            return mSpline.getPoint(t);
         }
     }
 
