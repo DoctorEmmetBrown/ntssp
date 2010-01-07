@@ -48,7 +48,7 @@ namespace Utils.Math
             mP1 = aP1;
             mP2 = aP2;
 
-            mSize = Vector2.Distance(mP1, mP1);
+            mSize = Vector2.Distance(mP1, mP2);
         }
 
         public Vector2 At(float t)

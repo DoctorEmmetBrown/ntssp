@@ -75,18 +75,18 @@ namespace NTSSP
                 PlayerCoord = DisplayManager.Instance.ScreenSplitter.TranslateCoordFromScreen(PlayerCoord,DisplayManager.Instance.ScreenSplitter.SplitScreens.Count - 1);
 
                 FlamePath fp = null;
-                switch (mType)
+               /* switch (mType)
                 {
                     case ChainType.HORIZONTAL:
                         fp = new HorizontalPath(MonsterCoord, PlayerCoord);
                         break;
-                    case ChainType.PARABOLIC:
+                    case ChainType.PARABOLIC:*/
                         fp = new ParabolicPath(MonsterCoord, PlayerCoord);
-                        break;
+                        /*break;
                     case ChainType.REFLECT:
-                        fp = new ParabolicPath(MonsterCoord, PlayerCoord);
-                        break;
-                }
+                        fp = new ReflectPath(MonsterCoord, PlayerCoord);
+                        /*break;
+                }*/
                 mFlames.Add(f, fp);
             }
         }
