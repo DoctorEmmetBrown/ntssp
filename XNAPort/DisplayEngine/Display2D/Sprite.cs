@@ -61,6 +61,13 @@ namespace DisplayEngine.Display2D
             set { mY = value; }
         }
 
+        private double mRotation = 0;
+        public double Rotation
+        {
+            set { mRotation = value; }
+            get { return mRotation; }
+        }
+
         SpriteSheet mSpriteSheet;
 
         public SpriteSheet SpriteSheet
@@ -200,7 +207,10 @@ namespace DisplayEngine.Display2D
             {
                 Vector2 v = DisplayManager.Instance.ScreenSplitter.TranslateCoordToScreen(new Vector2(mX, mY),aNumScreen);
                 Rectangle destRect = new Rectangle((int)v.X,(int) v.Y, mSpriteSheet.SourceRectangle(mCurrentFrame).Width, mSpriteSheet.SourceRectangle((int)mCurrentFrame).Height);
-                DisplayManager.Instance.SpriteBatch.Draw(mSpriteSheet.Texture, destRect, mSpriteSheet.SourceRectangle(mCurrentFrame), Color.White);
+                
+                Vector2 origins = new Vector2(mSpriteSheet.SourceRectangle(mCurrentFrame).Width/2.0f,mSpriteSheet.SourceRectangle(mCurrentFrame).Height/2.0f);
+                
+                DisplayManager.Instance.SpriteBatch.Draw(mSpriteSheet.Texture, destRect, mSpriteSheet.SourceRectangle(mCurrentFrame), Color.White,(float)mRotation,origins,SpriteEffects.None,0);
             }
         }
 

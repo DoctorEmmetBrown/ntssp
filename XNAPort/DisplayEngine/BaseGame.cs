@@ -32,6 +32,7 @@ namespace DisplayEngine
             	mDrawSurface = value;
             }
         }
+
         //Create and Embed Graphics in a window Handle
         public BaseGame() : base()
         {

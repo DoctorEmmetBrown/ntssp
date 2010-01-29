@@ -48,7 +48,7 @@ namespace NTSSP
         private Player mPlayer, mPlayer2;
         private CollisionManager mCollisionManager, mCollisionManager2;
         private static NTSSPGame mInstance;
-        public NTSSPGame()
+        public NTSSPGame() : base()
         {
             mInstance = this;
             Content.RootDirectory = "Content";
@@ -88,6 +88,7 @@ namespace NTSSP
         protected override void Initialize()
         {
             InputManager.CreateInstance(this);
+            DisplayManager.CreateManager(this, 2);
             // TODO: Add your initialization logic here
             base.Initialize();
         }
@@ -98,7 +99,7 @@ namespace NTSSP
         /// </summary>
         protected override void LoadContent()
         {
-            DisplayManager.CreateManager(this,2);
+            
 
             /*FileStream myStream = new FileStream("..\\..\\..\\Content\\testFormation.xml",FileMode.Open);
             XmlReader reader = XmlReader.Create(myStream);
@@ -137,6 +138,8 @@ namespace NTSSP
 
             mCollisionManager = new CollisionManager(mPlayer,mLevelFlow,0);
             mCollisionManager2 = new CollisionManager(mPlayer2,mLevelFlow2,1);
+
+            base.LoadContent();
         }
 
         /// <summary>
@@ -183,6 +186,8 @@ namespace NTSSP
             // TODO: Add your drawing code here
 
             base.Draw(aGameTime);
+
+            mCollisionManager.Draw();
 
             DisplayManager.Instance.SpriteBatch.End();
         }

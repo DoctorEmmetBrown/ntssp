@@ -109,21 +109,34 @@ namespace NTSSP
             {
                 FlamePath fp = mFlames[f];
 
-                Vector2 coord = fp.At(fp.t);
+                double angle = Math.PI / 2.0f;
+                Vector2 coord = fp.At(fp.t,out angle);
+
+                f.Sprite.Rotation = angle + Math.PI/2.0f;
                 f.X = coord.X;
                 f.Y = coord.Y;
 
-                fp.t += 0.001f;
+                fp.t += 0.1f;
 
-                if(fp.t > 1.0f)
+                /*if(fp.t > 1.0f)
                 {
                     toDelete.Add(f);
-                }
+                }*/
             }
 
             foreach (Flame f in toDelete)
             {
                 mFlames.Remove(f);
+            }
+        }
+
+        public void Draw()
+        {
+            foreach (Flame f in mFlames.Keys)
+            {
+                FlamePath fp = mFlames[f];
+
+               fp.Draw();
             }
         }
 
@@ -295,6 +308,14 @@ namespace NTSSP
             foreach(Chain c in mExplosingMonsters.Values)
             {
                 c.Update(aGameTime);
+            }
+        }
+
+        public void Draw()
+        {
+            foreach (Chain c in mExplosingMonsters.Values)
+            {
+                c.Draw();
             }
         }
     }

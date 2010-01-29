@@ -113,7 +113,7 @@ namespace Utils.Math
             int j = 1;
             for (float i = 0.0f; i < 1.0f - 0.001f; i += 0.001f)
             {
-                Vector2 p1 = Vector2.CatmullRom(mPoints[0],mPoints[0],mPoints[1],mPoints[2],i);
+                Vector2 p1 = Vector2.CatmullRom(mPoints[0], mPoints[0], mPoints[1], mPoints[2],i);
                 Vector2 p2 = Vector2.CatmullRom(mPoints[0], mPoints[0], mPoints[1], mPoints[2], i + 0.001f);
                 
                 size += Vector2.Distance(p1, p2);

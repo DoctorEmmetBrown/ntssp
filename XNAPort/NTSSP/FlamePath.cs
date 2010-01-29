@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using DisplayEngine;
 using Microsoft.Xna.Framework;
 using Utils.Math;
 
@@ -19,7 +20,9 @@ namespace NTSSP
             mPlayerCoord = aPlayer2;
         }
 
-        public abstract Vector2 At(float t);
+        public abstract Vector2 At(float t, out double angle);
+
+        public abstract void Draw();
     }
 
     public class ReflectPath : FlamePath
@@ -41,95 +44,151 @@ namespace NTSSP
             Line2 = new Line(Line2.P1, new Vector2(nx, a * nx + b));
         }
 
-        public override Vector2 At(float t)
+        public override Vector2 At(float t, out double aAngle)
         {
             float totalSize = Line1.Size + Line2.Size;
 
             if(t <= (Line1.Size / totalSize))
             {
-                return Line1.At(t / (Line1.Size / totalSize));
+                Vector2 Direction = Line1.P2 - Line1.P1;
+                Direction.Normalize();
+                aAngle = Math.Atan2(Direction.Y, Direction.X);
+                return Line1.At((t) / (Line1.Size / totalSize));
             }
             else
             {
+                Vector2 Direction = Line2.P2 - Line2.P1;
+                Direction.Normalize();
+                aAngle = Math.Atan2(Direction.Y, Direction.X);
                 return Line2.At((t - (Line1.Size / totalSize)) / (Line2.Size / totalSize));
             }
+        }
+        public override void Draw()
+        {
+            
         }
     }
 
     public class ParabolicPath : FlamePath
     {
-        private BezierSpline mSpline;
+        private List<Line> mLines = new List<Line>();
+
+        Vector2 g = new Vector2(0,-1);
+        Vector2 V0 = new Vector2(0);
+        Vector2 V = new Vector2(0);
+        Vector2 orig = new Vector2(0);
+        private float mTotalSize;
         public ParabolicPath(Vector2 aMonster, Vector2 aPlayer2)
             : base(aMonster, aPlayer2)
         {
-            float x = (aMonster.X + aPlayer2.X) / 2.0f;
-            float t = Math.Abs(aMonster.X - aPlayer2.X);
-            float sign = aMonster.X - aPlayer2.X;
+            orig = aMonster;
+            
 
-            Vector2 vect = new Vector2(x,0);
+            Random r = new Random((int)DateTime.Now.Ticks);
 
-            float a = (vect.Y - aPlayer2.Y) / (vect.X - aPlayer2.X);
-            float b = vect.Y - a * vect.X;
+            double t = r.NextDouble();
 
-            float a1 = (aMonster.Y - vect.Y) / (aMonster.X - vect.X);
-            float b1 = aMonster.Y - a1 * aMonster.X;
+            float h = MathHelper.Lerp(0, aMonster.Y, 0.8f * (float)t);
 
-            float nx = (sign > 0) ? -50 : 150;
+            V0.Y =(float) -Math.Sqrt((double)(2.0f*(float)Math.Abs(g.Y)*(aMonster.Y - h)));
+
+            float tpeak = V0.Y/g.Y;
+
+            float delta = V0.Y*V0.Y - 4.0f*(g.Y/2.0f*(-(aMonster.Y - aPlayer2.Y)));
+
+            float t1 = Math.Abs(-V0.Y - (float)Math.Sqrt(Math.Abs(delta))/g.Y);
+            float t2 = Math.Abs(-V0.Y + (float) Math.Sqrt(Math.Abs(delta))/g.Y);
 
 
-            mSpline = new BezierSpline();
-
-             if (sign > 0)
+            if (t1 > tpeak)
             {
-                mSpline.AddCurve(new CubicBezier(aMonster, new Vector2(aMonster.X - t / 3.0f, a1 * (aMonster.X - t / 3.0f) + b1),
-                         new Vector2(aPlayer2.X + t / 3.0f, a * (aPlayer2.X + t / 3.0f) + b), new Vector2(aPlayer2.X + t / 8.0f, a * (aPlayer2.X + t / 8.0f) + b)));
-                mSpline.AddCurve(new CubicBezier(new Vector2(aPlayer2.X + t / 8.0f, a * (aPlayer2.X + t / 8.0f) + b), aPlayer2, new Vector2(aPlayer2.X - 2 * t / 3.0f, a * (aPlayer2.X - 2 * t / 3.0f) + b), new Vector2(nx, a * nx + b)));
-
+                V0.X = (aPlayer2.X - aMonster.X) / t1;
             }
             else
             {
-                mSpline.AddCurve(new CubicBezier(aMonster, new Vector2(aMonster.X + t / 3.0f, a1 * (aMonster.X + t / 3.0f) + b1),
-                         new Vector2(aPlayer2.X - t / 3.0f, a * (aPlayer2.X - t / 3.0f) + b), new Vector2(aPlayer2.X - t / 8.0f, a * (aPlayer2.X - t / 8.0f) + b)));
-                mSpline.AddCurve(new CubicBezier(new Vector2(aPlayer2.X - t / 8.0f, a * (aPlayer2.X - t / 8.0f) + b), aPlayer2, new Vector2(aPlayer2.X + 2 * t / 3.0f, a * (aPlayer2.X + 2 * t / 3.0f) + b), new Vector2(nx, a * nx + b)));
-
-                /*mSpline = new CubicBezier(aMonster, new Vector2(aMonster.X + t / 3.0f, a1 * (aMonster.X + t / 3.0f) + b1),
-                          new Vector2(aPlayer2.X - t / 3.0f, a * (aPlayer2.X - t / 3.0f) + b), new Vector2(nx, a * nx + b));*/
+                V0.X = (aPlayer2.X - aMonster.X) / t2;
             }
-            mSpline.Update();
+
+            V = V0;
          }
 
-        public override Vector2 At(float t)
+        private Vector2 last;
+        public override Vector2 At(float t, out double aAngle)
         {
-            return mSpline.getPoint(t);
+            Vector2 v = orig + new Vector2(V0.X * t, V0.Y * t - g.Y / 2.0f * t * t);
+            if(t == 0.0f)
+            {
+                aAngle = Math.PI/2.0f;
+            }
+            else
+            {
+                Vector2 direction = v - last;
+                aAngle = Math.Atan2(direction.Y, direction.X);
+            }
+
+            last = v;
+
+            return v;
+        }
+
+        public override void Draw()
+        {
+            //mSpline.Draw(DisplayManager.Instance.ScreenSplitter.SplitScreens.Last());
+            //mSpline.DrawControlPoints(DisplayManager.Instance.ScreenSplitter.SplitScreens.Last());
         }
     }
 
     public class HorizontalPath : FlamePath
     {
-        private CubicBezier mSpline;
+        private List<Line> mLines = new List<Line>();
+        private float mTotalSize;
         public HorizontalPath(Vector2 aMonster, Vector2 aPlayer2)
             : base(aMonster, aPlayer2)
         {
             float sign = aMonster.X - aPlayer2.X;
-            float t = Math.Abs(aMonster.X - aPlayer2.X);
 
-            if(sign > 0)
+            mLines.Add(new Line(aMonster, new Vector2(aPlayer2.X, 0)));
+            mLines.Add(new Line(new Vector2(aPlayer2.X, 0),aPlayer2));
+
+            foreach (Line l in mLines)
             {
-                t = t/4.0f;
+                mTotalSize = l.Size;
             }
-            else
-            {
-                t = -t/4.0f;
-            }
-
-            mSpline = new CubicBezier(aMonster, new Vector2(aPlayer2.X + t, 0), new Vector2(aPlayer2.X, aPlayer2.Y / 2.0f), new Vector2(aPlayer2.X,150.0f));
-
-            mSpline.Update();
         }
 
-        public override Vector2 At(float t)
+        public override Vector2 At(float t, out double aAngle)
         {
-            return mSpline.GetPoint(t);
+            float totalper = 0;
+            int n = 0;
+            float per = 0;
+            foreach (Line l in mLines)
+            {
+                per = (float)(l.Size / mTotalSize);
+                totalper += per;
+                if (t <= totalper)
+                {
+                    break;
+                }
+                n += 1;
+            }
+
+            if (n > mLines.Count)
+            {
+                n--;
+            }
+            totalper -= per;
+            float rt = System.Math.Max(System.Math.Min((t - totalper) / per, 1.0f), 0.0f);
+
+            Vector2 Direction = mLines[n].P2 - mLines[n].P1;
+            Direction.Normalize();
+            aAngle = Math.Atan2(Direction.Y, Direction.X);
+
+            return mLines[n].At(rt);
+        }
+
+        public override void Draw()
+        {
+
         }
     }
 }

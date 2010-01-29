@@ -94,6 +94,7 @@
     <Compile Include="Display2D\Sprite.cs" />
     <Compile Include="Display2D\PrimitiveBatch.cs" />
     <Compile Include="DisplayManager.cs" />
+    <Compile Include="FPS.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ScreenSplitter.cs" />
     <Compile Include="Utils\SpriteSheet.cs" />

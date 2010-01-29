@@ -41,14 +41,14 @@ namespace Data
         public float X
         {
             get { return Sprite.X; }
-            set { Sprite.X = value - DisplayManager.Instance.ScreenSplitter.TranslateWidthFromScreen(Sprite.SpriteSheet.SourceRectangle(0).Width / 2.0f, Sprite.NumScreen); }
+            set { Sprite.X = value/* - DisplayManager.Instance.ScreenSplitter.TranslateWidthFromScreen(Sprite.SpriteSheet.SourceRectangle(0).Width / 2.0f, Sprite.NumScreen)*/; }
         }
 
         [ContentSerializerIgnore]
         public float Y
         {
             get { return Sprite.Y; }
-            set { Sprite.Y = value - DisplayManager.Instance.ScreenSplitter.TranslateHeightFromScreen(Sprite.SpriteSheet.SourceRectangle(0).Height / 2.0f, Sprite.NumScreen); }
+            set { Sprite.Y = value/* - DisplayManager.Instance.ScreenSplitter.TranslateHeightFromScreen(Sprite.SpriteSheet.SourceRectangle(0).Height / 2.0f, Sprite.NumScreen)*/; }
         }
 
         public static Sprite GetDefaultFlame(FlameType mType)

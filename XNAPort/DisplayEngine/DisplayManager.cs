@@ -72,6 +72,8 @@ namespace DisplayEngine
 
         private static DisplayManager mInstance = null;
 
+        private FrameRateCounter mFpsCounter = null;
+
         private DisplayManager(Game aGame, int aNbPlayer)
         {
             mGame = aGame;
@@ -82,6 +84,10 @@ namespace DisplayEngine
             mRoundLineManager.Init(aGame.GraphicsDevice, aGame.Content);
             Rectangle rect = new Rectangle(0,0,aGame.GraphicsDevice.Viewport.Width,aGame.GraphicsDevice.Viewport.Height);
             mScreenSplitter = new ScreenSplitter(rect, aNbPlayer);
+
+            //mFpsCounter = new FrameRateCounter(mGame);
+
+            //mGame.Components.Add(mFpsCounter);
 
             mGame.Components.Add(mDrawLevelManager);
         }
