@@ -75,17 +75,17 @@ namespace NTSSP
                 PlayerCoord = DisplayManager.Instance.ScreenSplitter.TranslateCoordFromScreen(PlayerCoord,DisplayManager.Instance.ScreenSplitter.SplitScreens.Count - 1);
 
                 FlamePath fp = null;
-               /* switch (mType)
+                /*switch (mType)
                 {
-                    case ChainType.HORIZONTAL:
+                    case ChainType.HORIZONTAL:*/
                         fp = new HorizontalPath(MonsterCoord, PlayerCoord);
-                        break;
-                    case ChainType.PARABOLIC:*/
+                       /* break;
+                    case ChainType.PARABOLIC:
                         fp = new ParabolicPath(MonsterCoord, PlayerCoord);
-                        /*break;
+                        break;
                     case ChainType.REFLECT:
                         fp = new ReflectPath(MonsterCoord, PlayerCoord);
-                        /*break;
+                        break;
                 }*/
                 mFlames.Add(f, fp);
             }
@@ -116,12 +116,30 @@ namespace NTSSP
                 f.X = coord.X;
                 f.Y = coord.Y;
 
-                fp.t += 0.1f;
+                fp.t += 0.001f;
 
-                /*if(fp.t > 1.0f)
+                int numscreen = DisplayManager.Instance.ScreenSplitter.SplitScreens.Count - 1;
+
+                Rectangle r;
+                if(f.Sprite.SpriteSheet.Count > 0)
+                {
+                    r = f.Sprite.SpriteSheet.SourceRectangle(0);
+                }
+                else
+                {
+                    continue;
+                }
+                
+
+                Vector2 cd = DisplayManager.Instance.ScreenSplitter.TranslateCoordToScreen(new Vector2(f.X, f.Y), numscreen);
+
+                r.X = (int)cd.X;
+                r.Y = (int)cd.Y;
+
+                if (!DisplayManager.Instance.ScreenSplitter.SplitScreens[numscreen].Contains(r) && !DisplayManager.Instance.ScreenSplitter.SplitScreens[numscreen].Intersects(r))
                 {
                     toDelete.Add(f);
-                }*/
+                }
             }
 
             foreach (Flame f in toDelete)

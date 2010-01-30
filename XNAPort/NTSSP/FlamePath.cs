@@ -148,7 +148,7 @@ namespace NTSSP
             float sign = aMonster.X - aPlayer2.X;
 
             mLines.Add(new Line(aMonster, new Vector2(aPlayer2.X, 0)));
-            mLines.Add(new Line(new Vector2(aPlayer2.X, 0),aPlayer2));
+            mLines.Add(new Line(new Vector2(aPlayer2.X, 0),new Vector2(aPlayer2.X,100.0f)));
 
             foreach (Line l in mLines)
             {
@@ -172,9 +172,9 @@ namespace NTSSP
                 n += 1;
             }
 
-            if (n > mLines.Count)
+            if (n >= mLines.Count)
             {
-                n--;
+                n=mLines.Count - 1;
             }
             totalper -= per;
             float rt = System.Math.Max(System.Math.Min((t - totalper) / per, 1.0f), 0.0f);
